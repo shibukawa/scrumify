@@ -1,0 +1,14 @@
+id: rule:two-layer-estimation
+type: rule
+title: Two-Layer Estimation
+summary: Estimate at PBI and story layers and reconcile them to forecast the whole, including unsplit
+  work.
+facts:
+  pbi: estimated by actor:developer; unit is points or days, one per team
+  story: relative size by comparison with other stories, even before split
+  rollup: split story holds the sum of its PBI estimates
+  display: unsplit shows predicted, split shows rolled-up; splitting replaces prediction
+relations:
+- relation: mentions
+  to: actor:developer
+  resolution: resolved

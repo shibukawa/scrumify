@@ -1,0 +1,15 @@
+id: rule:conversion-ratio
+type: rule
+title: Conversion Ratio
+summary: Ratio of PBI total to story size on split stories, used to predict unsplit stories.
+facts:
+  formula: pbi_total / story_size
+  example: size 2 with total 20 gives 10 per size; unsplit size 3 predicts about 30
+  basis: per team, from recent split stories
+  display: prediction shown with a range
+  feedback: gap between prediction and roll-up is recorded to check ratio accuracy and revisit sizing
+  open: decision:open-story-size-scale
+relations:
+- relation: mentions
+  to: decision:open-story-size-scale
+  resolution: resolved

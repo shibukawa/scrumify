@@ -1,0 +1,5 @@
+id: ui:saved-view
+type: ui
+title: Saved View
+summary: Filter, grouping, and sort order stored as a reusable view, across all layouts.
+relations: []

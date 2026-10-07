@@ -1,0 +1,14 @@
+id: rule:autosave
+type: rule
+title: Autosave On Input
+summary: Edits are saved as soon as they are entered, like Notion; there is no explicit save step.
+lifecycle: accepted
+facts:
+  applies_to: all editing UI, GUI screens of every view
+  no_save_button: true
+  history: each save is recorded per rule:change-history and presented per rule:history-coalescing
+relations:
+- relation: constrained_by
+  to: rule:change-history
+- relation: mentions
+  to: rule:history-coalescing

@@ -1,0 +1,40 @@
+id: ui:refinement-view
+type: ui
+title: Refinement View
+summary: ''
+facts:
+  ui:
+    root:
+      kind: screen
+      id: screen.refinement
+      children:
+      - kind: list
+        id: unsorted-stories
+      - kind: inbox
+        id: refinement-inbox
+        target: ui:refinement-inbox
+      - kind: tree
+        id: split-tree
+        state: AI proposals shown faded until decided
+      - kind: panel
+        id: item-detail
+        children:
+        - acceptance criteria
+        - estimate
+        - ready conditions (rule:ready-judgment)
+      - kind: button
+        label: Create split proposal with AI
+        action: flow:ai-refinement-proposal
+  later: entering PBI estimates and refining items whose DoR or DoD text is missing (decision:team-view-tabs)
+relations:
+- relation: mentions
+  to: flow:ai-refinement-proposal
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-inbox
+  resolution: resolved
+- relation: mentions
+  to: decision:team-view-tabs

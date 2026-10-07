@@ -1,0 +1,43 @@
+id: term:ticket-type
+type: term
+title: Ticket Type
+summary: Value of `type` on data:ticket; origin is the event where it is typically born.
+facts:
+  types:
+    story:
+      origin: normal filing
+      note: a story too large for a sprint is split into smaller stories (decision:drop-feature)
+    pbi:
+      origin: refinement
+      parent: story, or none
+    task:
+      origin: planning
+    impediment:
+      origin: daily
+    finding:
+      origin: development
+      kinds:
+      - bug
+      - tech_debt
+      - scope_addition
+    feedback:
+      origin: review
+    improvement_action:
+      origin: retro
+    external_task:
+      origin: any
+      parent: pbi
+      estimate: none
+      meaning: outside-Scrum work that cannot be estimated, e.g. waiting for a stakeholder reply
+    upper_item:
+      origin: SoS or MetaScrum
+  note: dependency is a data:ticket-link to another team's item, not a type
+relations:
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-link
+  resolution: resolved
+- relation: mentions
+  to: decision:drop-feature

@@ -1,0 +1,34 @@
+id: policy:ai-constraints
+type: policy
+title: AI Constraints
+summary: Humans hold responsibility; AI suggests and assists. Ranking and completion confirmation stay
+  with humans.
+facts:
+  actor: actor:ai-agent
+  read: everything
+  free_write: data:ticket-note only
+  suggest_only: ticket creation and changes, via data:ai-proposal or human-driven api:agent-interface
+  cannot:
+  - rank
+  - completion confirmation
+  completion: stops at completion candidate; a human approves (ui:review-queue)
+  responsibility: assignee is the responsible human, executor is the AI (data:ticket)
+relations:
+- relation: mentions
+  to: actor:ai-agent
+  resolution: resolved
+- relation: mentions
+  to: api:agent-interface
+  resolution: resolved
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: ui:review-queue
+  resolution: resolved

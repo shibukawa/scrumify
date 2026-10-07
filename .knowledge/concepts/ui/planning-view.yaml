@@ -1,0 +1,22 @@
+id: ui:planning-view
+type: ui
+title: Planning View
+summary: ''
+facts:
+  ui:
+    root:
+      kind: screen
+      id: screen.planning
+      children:
+      - kind: list
+        id: ranked-backlog
+      - kind: panel
+        id: capacity-velocity
+      - kind: dropzone
+        id: sprint
+        action: drag item into sprint
+      - kind: field
+        id: sprint-goal
+      - kind: action
+        id: task-breakdown
+relations: []

@@ -1,0 +1,27 @@
+id: ui:ready-gap-inbox
+type: ui
+title: Ready Gap Inbox
+summary: term:event-inbox listing sprint backlog items not yet Ready; used in ui:daily-view. Needed because
+  transitions are unrestricted (policy:open-editing) and urgent findings may enter the sprint directly.
+facts:
+  filter: current sprint, not ready (rule:ready-judgment)
+  per_item_shows:
+  - undone external_task children (manual check)
+  - undone prerequisite PBIs
+  - open questions in data:ticket-note with addressee (informational)
+relations:
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: policy:open-editing
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:daily-view
+  resolution: resolved

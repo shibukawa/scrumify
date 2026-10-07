@@ -1,0 +1,9 @@
+id: decision:project-level-visibility
+type: decision
+title: Project-Level Visibility
+summary: Visibility is controlled per data:project only; no fine-grained read control.
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: data:project
+  resolution: resolved

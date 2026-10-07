@@ -1,0 +1,70 @@
+id: decision:milestone-1-provisional-choices
+type: decision
+title: Milestone 1 Provisional Choices
+summary: Reversible choices made to build milestone 1 where the requirements were open; none is an agreed
+  final decision.
+lifecycle: proposed
+review_state: candidate
+facts:
+  status: provisional, implemented, not agreed
+  choices:
+    source_of_truth: the ticket row is the current state; data:ticket-event is recorded alongside, not
+      replayed
+    history_granularity: field edits (title, description, acceptance criteria, assignee, parent, rank)
+      merge per actor, ticket, and local day; status and sprint changes keep one entry each so their timing
+      survives for requirement:lead-time-analysis
+    coalescing_unit: per ticket
+    date_boundary: project timezone, default Asia/Tokyo, not yet editable
+    statuses:
+      story:
+      - unsorted
+      - split
+      - ready
+      - in_sprint
+      - done
+      pbi:
+      - unsorted
+      - ready
+      - doing
+      - done
+      task:
+      - todo
+      - doing
+      - done
+    auto_split: an unsorted story becomes split when it gains its first child; every other transition
+      is manual
+    hierarchy: pbi under story or standalone; task under pbi (feature removed by decision:drop-feature)
+    rank: one order per unit; a list shows the tickets of one type in that order
+    sprint_binding: only a pbi is planned into a sprint; its tasks follow it
+    board_columns: To Do holds unsorted and ready, dropping there sets ready
+    task_display: tasks listed inside a doing PBI card, state shown by a marker that cycles todo, doing,
+      done on click
+    authentication: OIDC; the framework's development identity provider locally; production provider not
+      chosen
+    membership: project creator is the first member; a member adds any account that has signed in once
+    units: every project starts with one team; more teams can be added; sos and sosos kinds exist in the
+      schema only
+    delete: logical, cascades to descendants, no restore UI yet
+  not_done:
+  - production configuration (config.prod.toml has no session or auth section)
+  - HTTP-level and browser tests; domain tests run against PostgreSQL
+  - comments
+open_questions:
+  confirm-provisional-choices:
+    text: Which of these provisional choices should become agreed decisions, and which should change.
+    state: open
+relations:
+- relation: mentions
+  to: rule:change-history
+- relation: mentions
+  to: rule:history-coalescing
+- relation: mentions
+  to: decision:open-status-transitions
+- relation: mentions
+  to: requirement:phase-1-mvp
+- relation: mentions
+  to: requirement:lead-time-analysis
+- relation: mentions
+  to: data:ticket-event
+- relation: mentions
+  to: decision:drop-feature

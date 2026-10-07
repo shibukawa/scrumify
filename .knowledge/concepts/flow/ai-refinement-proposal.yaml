@@ -1,0 +1,41 @@
+id: flow:ai-refinement-proposal
+type: flow
+title: AI Refinement Proposal
+summary: 'First AI use: draft split and acceptance criteria in refinement; output is always a proposal
+  a human adopts, edits, or rejects.'
+facts:
+  flow:
+    trigger: user selects an unsorted story and runs AI split in ui:refinement-view
+    input:
+    - story body and existing children
+    - DoD and ready conditions
+    - similar past stories and their splits
+    - related existing backlog
+    steps:
+    - id: draft
+      actor: actor:ai-agent
+      output: PBI list, or smaller stories when the story does not fit a sprint, acceptance criteria draft,
+        missing ready conditions (external tasks, prerequisites), rationale, questions for PO as data:ticket-note
+    - id: show
+      action: display faded on the tree in proposed state (data:ai-proposal)
+    - id: decide
+      actor: human
+      action: per item adopt, edit and adopt, or reject
+    - id: confirm
+      action: only adopted items become confirmed tickets
+    rules:
+    - ambiguous spec stays as a question, never filled by guessing
+    - reject reason recorded from a fixed choice list
+relations:
+- relation: mentions
+  to: actor:ai-agent
+  resolution: resolved
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-view
+  resolution: resolved

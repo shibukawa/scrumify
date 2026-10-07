@@ -1,0 +1,14 @@
+id: actor:product-owner
+type: actor
+title: Product Owner
+summary: ''
+facts:
+  level: team
+  cycle: po
+  duties:
+  - backlog ranking
+  - completion confirmation as default confirmer (rule:completion-confirmation)
+relations:
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved

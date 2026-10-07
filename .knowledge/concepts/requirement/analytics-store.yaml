@@ -1,0 +1,5 @@
+id: requirement:analytics-store
+type: requirement
+title: Analytics Store Separation
+summary: Separate the write DB from analytic aggregates; initially aggregate views on the RDB are enough.
+relations: []

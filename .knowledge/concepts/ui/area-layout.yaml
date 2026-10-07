@@ -1,0 +1,17 @@
+id: ui:area-layout
+type: ui
+title: Area Layout
+summary: 'Card area proportional to estimate; PBIs nested inside their story. Main use: estimate tuning,
+  planning.'
+facts:
+  area_source:
+    split_story: rolled-up value (rule:two-layer-estimation)
+    unsplit_story: predicted value (rule:conversion-ratio), dotted border
+  overlay: sprint capacity as a frame to check selected items fit
+relations:
+- relation: mentions
+  to: rule:conversion-ratio
+  resolution: resolved
+- relation: mentions
+  to: rule:two-layer-estimation
+  resolution: resolved

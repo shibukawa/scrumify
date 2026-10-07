@@ -1,0 +1,10 @@
+id: decision:tasks-inside-pbi
+type: decision
+title: Tasks Shown Inside PBI
+summary: Tasks are not shown as independent cards; they appear inside their PBI group while the PBI is
+  in doing, with todo/doing/done shown by color or icon (ui:sprint-board).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: ui:sprint-board
+  resolution: resolved

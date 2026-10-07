@@ -1,0 +1,16 @@
+id: decision:open-status-transitions
+type: decision
+title: 'Open: Status Transitions'
+summary: Definition of status transitions per term:ticket-type (concept:ticket-lifecycle).
+lifecycle: proposed
+open_questions:
+  status-transitions:
+    text: Definition of status transitions per term:ticket-type (concept:ticket-lifecycle).
+    state: open
+relations:
+- relation: mentions
+  to: concept:ticket-lifecycle
+  resolution: resolved
+- relation: mentions
+  to: term:ticket-type
+  resolution: resolved

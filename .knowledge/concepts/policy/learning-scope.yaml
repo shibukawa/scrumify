@@ -1,0 +1,5 @@
+id: policy:learning-scope
+type: policy
+title: Learning Scope
+summary: AI learning is team-internal by default; organization-wide sharing is selectable by configuration.
+relations: []

@@ -1,0 +1,12 @@
+id: actor:sos-master
+type: actor
+title: SoS / SoSoS Master
+summary: ''
+facts:
+  level:
+  - sos
+  - sosos
+  cycle: sm
+  duties:
+  - coordinate cross-team impediments and dependencies
+relations: []

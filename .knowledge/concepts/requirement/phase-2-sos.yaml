@@ -1,0 +1,26 @@
+id: requirement:phase-2-sos
+type: requirement
+title: Phase 2 SoS
+summary: ''
+facts:
+  includes:
+  - SoS mode (ui:sos-po-view cross-team board, ui:sos-sm-view)
+  - cross-team dependencies
+  - flow:impediment-escalation
+  - analysis via data:ticket-status-period and data:snapshot
+relations:
+- relation: mentions
+  to: data:snapshot
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-status-period
+  resolution: resolved
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved
+- relation: mentions
+  to: ui:sos-po-view
+  resolution: resolved
+- relation: mentions
+  to: ui:sos-sm-view
+  resolution: resolved

@@ -1,0 +1,13 @@
+id: decision:history-in-phase-1
+type: decision
+title: History In Phase 1
+summary: data:ticket-event is part of requirement:phase-1-mvp because retrofitting event history later
+  would require remodeling.
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: requirement:phase-1-mvp
+  resolution: resolved

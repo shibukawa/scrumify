@@ -1,0 +1,11 @@
+id: ui:sos-sm-view
+type: ui
+title: SoS/SoSoS SM View
+summary: Impediment board (ui:impediment-inbox), dependency map, escalation status (flow:impediment-escalation).
+relations:
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved
+- relation: mentions
+  to: ui:impediment-inbox
+  resolution: resolved

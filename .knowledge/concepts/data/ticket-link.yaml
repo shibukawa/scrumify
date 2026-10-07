@@ -1,0 +1,13 @@
+id: data:ticket-link
+type: data
+title: Ticket Link
+summary: ''
+facts:
+  kinds:
+  - parent_child
+  - dependency
+  - block
+  fields:
+  - valid_from
+  - valid_to
+relations: []

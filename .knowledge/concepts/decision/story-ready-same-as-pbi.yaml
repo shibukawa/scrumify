@@ -1,0 +1,10 @@
+id: decision:story-ready-same-as-pbi
+type: decision
+title: Story Ready Same As PBI
+summary: Story readiness follows the same derived rule as PBI, additionally requiring all child PBIs ready
+  (rule:ready-judgment).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved

@@ -1,0 +1,19 @@
+id: ui:retro-view
+type: ui
+title: Retro View
+summary: ''
+facts:
+  ui:
+    root:
+      kind: screen
+      id: screen.retro
+      children:
+      - kind: board
+        id: kpt
+      - kind: action
+        id: convert-to-improvement-action
+        target: backlog item
+      - kind: check
+        id: effect-check
+        state: verify at next retro then close
+relations: []

@@ -1,0 +1,12 @@
+id: decision:no-fine-grained-permissions
+type: decision
+title: No Fine-Grained Permissions
+summary: Execution permissions are not finely controlled; only policy:ai-constraints is kept (policy:open-editing).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved
+- relation: mentions
+  to: policy:open-editing
+  resolution: resolved

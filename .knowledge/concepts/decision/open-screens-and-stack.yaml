@@ -1,0 +1,16 @@
+id: decision:open-screens-and-stack
+type: decision
+title: 'Open: Screens'
+summary: Screen structure for requirement:phase-1-mvp; technology stack is decided (decision:tech-stack-popcorn-web).
+lifecycle: proposed
+open_questions:
+  screens-and-stack:
+    text: Screen structure for requirement:phase-1-mvp; technology stack is decided (decision:tech-stack-popcorn-web).
+    state: open
+relations:
+- relation: mentions
+  to: decision:tech-stack-popcorn-web
+  resolution: resolved
+- relation: mentions
+  to: requirement:phase-1-mvp
+  resolution: resolved

@@ -1,0 +1,15 @@
+id: ui:stories-view
+type: ui
+title: Stories View
+summary: First tab of the team views; stories in rank order with their PBIs visible, in a list or card layout.
+lifecycle: accepted
+facts:
+  route: /u/{unit}/stories?layout=list|card
+  shows: position, title (autosave), description excerpt in cards, status, PBI count, the story's PBIs with their status
+  actions: drag to reorder, add a story, open the story in ui:refinement-view (split) or ticket detail
+  layouts: list and card; the choice lives in the URL
+relations:
+- relation: mentions
+  to: ui:refinement-view
+- relation: mentions
+  to: decision:team-view-tabs

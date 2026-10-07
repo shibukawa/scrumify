@@ -1,0 +1,6 @@
+id: ui:quick-add
+type: ui
+title: Quick Add
+summary: 'Global control on every screen: pick a ticket type to file; origin event and parent ticket are
+  linked automatically.'
+relations: []

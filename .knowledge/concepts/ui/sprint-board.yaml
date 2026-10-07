@@ -1,0 +1,27 @@
+id: ui:sprint-board
+type: ui
+title: Sprint Board
+summary: Sprint-scoped kanban of PBIs (ui:board-layout) where tasks appear only inside their PBI, never
+  as independent cards, so the relation stays visible. Used in daily scrum and sprint review.
+facts:
+  ui:
+    root:
+      kind: board
+      id: sprint-board
+      columns:
+      - todo
+      - doing
+      - done
+      children:
+      - kind: group
+        id: pbi-group
+        state: shown expanded while the PBI is in doing
+        children:
+        - kind: list
+          id: pbi-tasks
+          state: tasks listed inside the PBI group; task state todo, doing, done shown by color or icon
+            instead of sub-columns (tentative, settle in screen design)
+relations:
+- relation: mentions
+  to: ui:board-layout
+  resolution: resolved

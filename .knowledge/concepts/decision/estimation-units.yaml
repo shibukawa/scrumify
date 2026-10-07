@@ -1,0 +1,13 @@
+id: decision:estimation-units
+type: decision
+title: Estimation Units
+summary: PBI in points or days chosen per team; story in relative size; upper levels convert to sprint
+  counts (rule:two-layer-estimation, rule:cross-team-aggregation).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:cross-team-aggregation
+  resolution: resolved
+- relation: mentions
+  to: rule:two-layer-estimation
+  resolution: resolved

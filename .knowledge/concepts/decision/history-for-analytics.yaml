@@ -1,0 +1,13 @@
+id: decision:history-for-analytics
+type: decision
+title: History For Analytics
+summary: History serves analysis and AI learning in addition to tracking (requirement:lead-time-analysis,
+  requirement:ai-learning-data).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: requirement:ai-learning-data
+  resolution: resolved
+- relation: mentions
+  to: requirement:lead-time-analysis
+  resolution: resolved

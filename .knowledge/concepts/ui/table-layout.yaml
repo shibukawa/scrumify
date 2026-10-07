@@ -1,0 +1,6 @@
+id: ui:table-layout
+type: ui
+title: Table Layout
+summary: 'Notion-like table: column toggle, sort, grouping, in-cell edit. Main use: refinement, tidying,
+  bulk edit.'
+relations: []

@@ -1,0 +1,32 @@
+id: ui:daily-view
+type: ui
+title: Daily / Developer View
+summary: ''
+facts:
+  ui:
+    root:
+      kind: screen
+      id: screen.daily
+      state: only own assignments
+      children:
+      - kind: list
+        id: my-tasks
+        action: advance task status
+      - kind: inbox
+        id: ready-gap-inbox
+        target: ui:ready-gap-inbox
+      - kind: inbox
+        id: impediment-inbox
+        target: ui:impediment-inbox
+      - kind: field
+        id: pr-branch-link
+      - kind: button
+        label: Report blocker
+        action: create impediment ticket
+relations:
+- relation: mentions
+  to: ui:impediment-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:ready-gap-inbox
+  resolution: resolved

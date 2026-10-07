@@ -1,0 +1,8 @@
+id: data:scrum-event-occurrence
+type: data
+title: Scrum Event Occurrence
+summary: Record of each held Scrum event; referenced as ticket origin (data:ticket).
+relations:
+- relation: mentions
+  to: data:ticket
+  resolution: resolved

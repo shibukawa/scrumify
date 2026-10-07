@@ -1,0 +1,39 @@
+id: rule:ready-judgment
+type: rule
+title: Ready Judgment
+summary: DoR reduces to a set of ready conditions on a story or PBI; there are exactly two condition kinds.
+  Readiness is derived from them, never set by hand; every flip is recorded with the rule as reason (rule:change-history).
+facts:
+  applies_to:
+  - story
+  - pbi
+  ready_when:
+    pbi: all ready conditions are done
+    story: has at least one child PBI, all own ready conditions are done, and all child PBIs are ready
+  conditions:
+    external_task:
+      what: child external_task ticket without estimate (term:ticket-type)
+      example: waiting for a stakeholder reply
+      judge: human checks it done (manual)
+    prerequisite:
+      what: designated PBI via data:ticket-link kind block
+      judge: automatic when the designated PBI is done
+  no_other_kinds: true
+  not_conditions: open questions in data:ticket-note
+  transitions:
+  - no conditions: ready immediately (story still needs a child PBI)
+  - last condition satisfied: becomes ready automatically
+  - undone condition added later: back to not ready
+relations:
+- relation: mentions
+  to: data:ticket-link
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: rule:change-history
+  resolution: resolved
+- relation: mentions
+  to: term:ticket-type
+  resolution: resolved

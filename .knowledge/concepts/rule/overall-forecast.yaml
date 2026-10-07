@@ -1,0 +1,6 @@
+id: rule:overall-forecast
+type: rule
+title: Overall Forecast
+summary: For a group of stories or a release, (rolled-up + predicted estimates) / velocity gives the sprint-count
+  outlook.
+relations: []

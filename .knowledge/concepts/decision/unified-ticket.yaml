@@ -1,0 +1,9 @@
+id: decision:unified-ticket
+type: decision
+title: Unified Ticket
+summary: Impediments are handled by the same data:ticket entity; views differ only by filter.
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: data:ticket
+  resolution: resolved

@@ -1,0 +1,37 @@
+id: policy:open-editing
+type: policy
+title: Open Editing
+summary: Operations are not finely restricted; accountability comes from history (rule:change-history),
+  not from blocking.
+facts:
+  create_edit_comment_delete: anyone; delete is logical
+  rank_estimate: responsible role is shown on screen but the operation is not restricted
+  ready: derived automatically for story and PBI by rule:ready-judgment
+  done: story and PBI via rule:completion-confirmation; others unrestricted; who transitioned is recorded
+  mid_sprint_changes: add, remove, edit unrestricted and recorded
+  unit_structure: number of levels and unit composition are configurable (data:unit)
+  visibility: per data:project only
+  awareness: rule:auto-subscription
+  exception: policy:ai-constraints
+relations:
+- relation: mentions
+  to: data:project
+  resolution: resolved
+- relation: mentions
+  to: data:unit
+  resolution: resolved
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved
+- relation: mentions
+  to: rule:change-history
+  resolution: resolved
+- relation: mentions
+  to: rule:auto-subscription
+  resolution: resolved
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved

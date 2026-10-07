@@ -1,0 +1,41 @@
+id: concept:ticket-lifecycle
+type: concept
+title: Ticket Lifecycle
+summary: Lifecycle outline per term:ticket-type; exact transitions pending decision:open-status-transitions.
+facts:
+  story:
+  - unsorted
+  - split
+  - ready
+  - in_sprint
+  - done
+  readiness: derived for story and PBI by rule:ready-judgment
+  completion: when all children are done the parent becomes a completion candidate; done only after rule:completion-confirmation
+  task: valid only inside a sprint; unfinished work carries over on the item side
+  impediment: filed, then resolved or escalated (flow:impediment-escalation)
+  finding: enters unsorted by default; urgent ones go directly into the sprint
+  feedback:
+    problem_in_done_item: defect linked to the source item
+    improvement_request: new story
+  improvement_action: has owner and deadline; closed after effect check at next retro
+  external_task: open, then done by manual check; satisfies a ready condition of its parent (rule:ready-judgment)
+  upper_item: distribution to teams creates children (flow:backlog-distribution)
+relations:
+- relation: mentions
+  to: decision:open-status-transitions
+  resolution: resolved
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved
+- relation: mentions
+  to: term:ticket-type
+  resolution: resolved

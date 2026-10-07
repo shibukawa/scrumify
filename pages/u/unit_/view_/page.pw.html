@@ -1,0 +1,854 @@
+package view_
+
+type Option { value: string, label: string, selected: bool }
+
+type Tab { label: string, path: url, current: bool }
+
+type Nav { projectName: string, projectPath: url, unitName: string, tabs: Tab[] }
+
+type StoryItem {
+  id: int
+  title: string
+  statusLabel: string
+  summary: string
+  path: url
+  selected: bool
+}
+
+type TreeRow {
+  id: int
+  kind: string
+  kindLabel: string
+  title: string
+  statuses: Option[]
+  path: url
+}
+
+type StoryDetail {
+  id: int
+  title: string
+  description: string
+  acceptanceCriteria: string
+  statuses: Option[]
+  path: url
+  rows: TreeRow[]
+  hasRows: bool
+}
+
+type Refinement {
+  stories: StoryItem[]
+  hasStories: bool
+  hasSelection: bool
+  selected: StoryDetail
+}
+
+type LayoutSwitch { cards: bool, listPath: url, cardPath: url }
+
+type ItemLink { id: int, title: string, statusLabel: string, done: bool, path: url }
+
+type StoryEntry {
+  id: int
+  position: int
+  title: string
+  description: string
+  summary: string
+  statuses: Option[]
+  path: url
+  refinePath: url
+  items: ItemLink[]
+  hasItems: bool
+}
+
+type Stories { stories: StoryEntry[], hasStories: bool, layout: LayoutSwitch }
+
+type BacklogRow {
+  id: int
+  position: int
+  title: string
+  parentLabel: string
+  parentPath: url
+  statusLabel: string
+  sprintLabel: string
+  statuses: Option[]
+  sprints: Option[]
+  path: url
+}
+
+type SprintItem { id: int, name: string, stateLabel: string, count: int, path: url, current: bool }
+
+type Backlog {
+  rows: BacklogRow[]
+  hasRows: bool
+  sprints: SprintItem[]
+  hasSprints: bool
+  layout: LayoutSwitch
+}
+
+type TaskItem {
+  id: int
+  title: string
+  statusLabel: string
+  statuses: Option[]
+  mark: string
+  tone: string
+  nextStatus: string
+  done: bool
+}
+
+type Card {
+  id: int
+  title: string
+  parentLabel: string
+  path: url
+  statuses: Option[]
+  assignees: Option[]
+  doing: bool
+  tasks: TaskItem[]
+}
+
+type Column { key: string, label: string, dropStatus: string, count: int, cards: Card[] }
+
+type SprintView {
+  exists: bool
+  id: int
+  name: string
+  goal: string
+  startsOn: string
+  endsOn: string
+  states: Option[]
+  board: bool
+  boardPath: url
+  listPath: url
+  backlogPath: url
+  columns: Column[]
+  cards: Card[]
+  hasCards: bool
+  sprints: SprintItem[]
+}
+
+type View {
+  unitId: int
+  mode: string
+  nav: Nav
+  stories: Stories
+  refinement: Refinement
+  backlog: Backlog
+  sprint: SprintView
+}
+
+external LoadView(unit: int, view: string, story: int?, sprint: int?, layout: string?): View
+
+component Options(options: Option[]): html {
+  {for option in options}
+    <option value="{option.value}" selected="{option.selected}">{option.label}</option>
+  {/for}
+}
+
+component KindBadge(kind: string, label: string): html {
+  {if kind == "task"}
+    <span class="shrink-0 whitespace-nowrap rounded bg-slate-100 px-1.5 py-0.5 text-xs font-semibold text-slate-600">{label}</span>
+  {else}
+    <span class="shrink-0 whitespace-nowrap rounded bg-sky-100 px-1.5 py-0.5 text-xs font-semibold text-sky-700">{label}</span>
+  {/if}
+}
+
+component RefinementView(unitId: int, view: Refinement): html {
+  <div class="grid gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+    <aside class="space-y-3">
+      <h2 class="text-sm font-semibold text-slate-500">ストーリー</h2>
+      {if view.hasStories}
+        <ul class="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white">
+          {for story in view.stories}
+            <li
+              draggable="true"
+              data-drag-id="{story.id}"
+              data-drag-kind="story"
+              data-drop="/api/tickets/:id/move"
+              data-drop-kind="story"
+              data-param-before-id="{story.id}"
+              class="data-[drop-over]:border-t-2 data-[drop-over]:border-t-indigo-500 data-[dragging]:opacity-40">
+              <a
+                class='block px-3 py-2 hover:bg-indigo-50 {story.selected ? "bg-indigo-50" : ""}'
+                href="{story.path}">
+                <span class="block font-medium" data-mirror-of="title-{story.id}">{story.title}</span>
+                <span class="mt-0.5 flex gap-2 text-xs text-slate-500"><span>{story.statusLabel}</span><span>{story.summary}</span></span>
+              </a>
+            </li>
+          {/for}
+          <li
+            class="h-3 data-[drop-over]:bg-indigo-200"
+            data-drop="/api/tickets/:id/move"
+            data-drop-kind="story"
+            data-param-before-id="0"></li>
+        </ul>
+      {else}
+        <p class="text-sm text-slate-500">まだストーリーがありません。</p>
+      {/if}
+      <form
+        data-api="/api/units/{unitId}/tickets"
+        data-tb-ignore
+        data-refocus="new-story"
+        class="flex gap-2">
+        <input type="hidden" name="type" value="story">
+        <input
+          class="min-w-0 flex-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm"
+          name="title"
+          required
+          maxlength="500"
+          data-refocus-target="new-story"
+          placeholder="ストーリーを追加">
+        <button
+          class="rounded bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
+          type="submit">追加</button>
+      </form>
+    </aside>
+    <section>
+      {if view.hasSelection}
+        <div class="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+          <div class="flex items-start gap-3">
+            <input
+              class="min-w-0 flex-1 rounded border border-transparent px-2 py-1 text-xl font-bold hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+              value="{view.selected.title}"
+              aria-label="ストーリーのタイトル"
+              data-autosave="/api/tickets/{view.selected.id}/text"
+              data-field="title"
+              data-mirror="title-{view.selected.id}">
+            <select
+              class="rounded border border-slate-300 bg-white px-2 py-1 text-sm"
+              aria-label="ステータス"
+              data-post="/api/tickets/{view.selected.id}/status"
+              data-name="status"> <Options options="{view.selected.statuses}"/> </select>
+            <a
+              class="px-1 py-1 text-sm text-indigo-600 hover:underline"
+              href="{view.selected.path}">詳細</a>
+          </div>
+          <label class="block">
+            <span class="mb-1 block text-xs font-semibold text-slate-500">説明</span>
+            <textarea
+              class="w-full rounded border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+              rows="4"
+              data-autosave="/api/tickets/{view.selected.id}/text"
+              data-field="description">{view.selected.description}</textarea>
+          </label>
+          <label class="block">
+            <span class="mb-1 block text-xs font-semibold text-slate-500">受入条件</span>
+            <textarea
+              class="w-full rounded border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+              rows="4"
+              data-autosave="/api/tickets/{view.selected.id}/text"
+              data-field="acceptance_criteria">{view.selected.acceptanceCriteria}</textarea>
+          </label>
+          <div class="space-y-2">
+            <h3 class="text-xs font-semibold text-slate-500">分割</h3>
+            {if view.selected.hasRows}
+              <ul class="space-y-1">
+                {for row in view.selected.rows}
+                  <li class="flex items-center gap-2">
+                    <KindBadge kind="{row.kind}" label="{row.kindLabel}"/>
+                    <input
+                      class="min-w-0 flex-1 rounded border border-transparent px-2 py-1 text-sm hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+                      value="{row.title}"
+                      aria-label="タイトル"
+                      data-autosave="/api/tickets/{row.id}/text"
+                      data-field="title">
+                    <select
+                      class="rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                      aria-label="ステータス"
+                      data-post="/api/tickets/{row.id}/status"
+                      data-name="status"> <Options options="{row.statuses}"/> </select>
+                    <a class="text-xs text-indigo-600 hover:underline" href="{row.path}">詳細</a>
+                    <button
+                      class="rounded px-1.5 py-0.5 text-xs text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+                      type="button"
+                      aria-label="削除"
+                      data-post="/api/tickets/{row.id}/delete"
+                      data-confirm="このチケットと配下のチケットを削除しますか？">✕</button>
+                  </li>
+                {/for}
+              </ul>
+            {else}
+              <p class="text-sm text-slate-500">まだ分割されていません。PBI を追加してください。</p>
+            {/if}
+            <div class="pt-2">
+              <form
+                data-api="/api/units/{unitId}/tickets"
+                data-tb-ignore
+                data-ints="parentId"
+                data-refocus="new-pbi"
+                class="flex gap-2">
+                <input type="hidden" name="type" value="pbi">
+                <input type="hidden" name="parentId" value="{view.selected.id}">
+                <input
+                  class="min-w-0 flex-1 rounded border border-slate-300 px-2 py-1 text-sm"
+                  name="title"
+                  required
+                  maxlength="500"
+                  data-refocus-target="new-pbi"
+                  placeholder="PBI を追加">
+                <button
+                  class="rounded bg-sky-600 px-3 py-1 text-sm font-medium text-white hover:bg-sky-700"
+                  type="submit">追加</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      {else}
+        <div class="rounded-lg border border-dashed border-slate-300 p-10 text-center text-slate-500">左の一覧からストーリーを選ぶと、フィーチャーと PBI に分割できます。</div>
+      {/if}
+    </section>
+  </div>
+}
+
+component SprintList(sprints: SprintItem[]): html {
+  <ul class="divide-y divide-slate-200 overflow-hidden rounded-lg border border-slate-200 bg-white">
+    {for sprint in sprints}
+      <li
+        class="data-[drop-over]:bg-indigo-100"
+        data-drop="/api/tickets/:id/sprint"
+        data-drop-kind="pbi"
+        data-param-sprint-id="{sprint.id}">
+        <a
+          class='flex items-baseline justify-between gap-2 px-3 py-2 hover:bg-indigo-50 {sprint.current ? "bg-indigo-50" : ""}'
+          href="{sprint.path}">
+          <span class="font-medium">{sprint.name}</span>
+          <span class="shrink-0 text-xs text-slate-500">{sprint.stateLabel}・PBI
+            {sprint.count}</span>
+        </a>
+      </li>
+    {/for}
+  </ul>
+}
+
+component NewSprintForm(unitId: int): html {
+  <form data-api="/api/units/{unitId}/sprints" data-tb-ignore class="flex gap-2">
+    <input
+      class="min-w-0 flex-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm"
+      name="name"
+      required
+      maxlength="200"
+      placeholder="スプリントを追加">
+    <button
+      class="rounded bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
+      type="submit">追加</button>
+  </form>
+}
+
+component LayoutToggle(layout: LayoutSwitch): html {
+  <div class="flex gap-1 text-sm">
+    <a
+      class='rounded px-3 py-1 {layout.cards ? "text-slate-600 hover:bg-slate-200" : "bg-slate-800 text-white"}'
+      href="{layout.listPath}">リスト</a>
+    <a
+      class='rounded px-3 py-1 {layout.cards ? "bg-slate-800 text-white" : "text-slate-600 hover:bg-slate-200"}'
+      href="{layout.cardPath}">カード</a>
+  </div>
+}
+
+component NewStoryForm(unitId: int): html {
+  <form
+    data-api="/api/units/{unitId}/tickets"
+    data-tb-ignore
+    data-refocus="new-story"
+    class="flex gap-2">
+    <input type="hidden" name="type" value="story">
+    <input
+      class="min-w-0 flex-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm"
+      name="title"
+      required
+      maxlength="500"
+      data-refocus-target="new-story"
+      placeholder="ストーリーを追加">
+    <button
+      class="rounded bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700"
+      type="submit">追加</button>
+  </form>
+}
+
+component StoryItems(items: ItemLink[]): html {
+  <ul class="space-y-0.5">
+    {for item in items}
+      <li class="flex items-center gap-2 text-xs">
+        <KindBadge kind="pbi" label="PBI"/>
+        <a
+          class='min-w-0 flex-1 truncate hover:text-indigo-700 hover:underline {item.done ? "text-slate-400 line-through" : ""}'
+          href="{item.path}">{item.title}</a>
+        <span class="shrink-0 text-slate-400">{item.statusLabel}</span>
+      </li>
+    {/for}
+  </ul>
+}
+
+component StoriesView(unitId: int, view: Stories): html {
+  <div class="space-y-3">
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="text-sm font-semibold text-slate-500">ストーリー（優先順位順）</h2>
+      <LayoutToggle layout="{view.layout}"/>
+    </div>
+    {if view.hasStories}
+      {if view.layout.cards}
+        <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+          {for story in view.stories}
+            <article
+              draggable="true"
+              data-drag-id="{story.id}"
+              data-drag-kind="story"
+              data-drop="/api/tickets/:id/move"
+              data-drop-kind="story"
+              data-param-before-id="{story.id}"
+              class="flex cursor-grab flex-col gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm data-[drop-over]:border-indigo-500 data-[dragging]:opacity-40">
+              <div class="flex items-start gap-2">
+                <span class="mt-0.5 text-xs tabular-nums text-slate-400">{story.position}</span>
+                <input
+                  class="min-w-0 flex-1 rounded border border-transparent px-1 py-0.5 font-medium hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+                  value="{story.title}"
+                  aria-label="タイトル"
+                  data-autosave="/api/tickets/{story.id}/text"
+                  data-field="title">
+              </div>
+              {if story.description != ""}<p class="line-clamp-3 text-xs text-slate-500">{story.description}</p>{/if}
+              {if story.hasItems}
+                <StoryItems items="{story.items}"/>
+              {else}
+                <p class="text-xs text-slate-400">PBI はまだありません</p>
+              {/if}
+              <div class="mt-auto flex items-center gap-2 pt-1 text-xs">
+                <select
+                  class="rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                  aria-label="ステータス"
+                  data-post="/api/tickets/{story.id}/status"
+                  data-name="status"> <Options options="{story.statuses}"/> </select>
+                <span class="flex-1 text-slate-400">{story.summary}</span>
+                <a class="text-indigo-600 hover:underline" href="{story.refinePath}">分割</a>
+                <a class="text-indigo-600 hover:underline" href="{story.path}">詳細</a>
+              </div>
+            </article>
+          {/for}
+          <div
+            class="min-h-12 rounded-lg border border-dashed border-slate-200 data-[drop-over]:border-indigo-500 data-[drop-over]:bg-indigo-50"
+            data-drop="/api/tickets/:id/move"
+            data-drop-kind="story"
+            data-param-before-id="0"></div>
+        </div>
+      {else}
+        <ol class="overflow-hidden rounded-lg border border-slate-200 bg-white">
+          {for story in view.stories}
+            <li
+              draggable="true"
+              data-drag-id="{story.id}"
+              data-drag-kind="story"
+              data-drop="/api/tickets/:id/move"
+              data-drop-kind="story"
+              data-param-before-id="{story.id}"
+              class="cursor-grab border-b border-slate-100 px-3 py-2 data-[drop-over]:border-t-2 data-[drop-over]:border-t-indigo-500 data-[dragging]:opacity-40">
+              <div class="flex items-center gap-3">
+                <span class="w-6 shrink-0 text-right text-xs tabular-nums text-slate-400">{story.position}</span>
+                <input
+                  class="min-w-0 flex-1 rounded border border-transparent px-2 py-1 font-medium hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+                  value="{story.title}"
+                  aria-label="タイトル"
+                  data-autosave="/api/tickets/{story.id}/text"
+                  data-field="title">
+                <span class="shrink-0 text-xs text-slate-400">{story.summary}</span>
+                <select
+                  class="rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                  aria-label="ステータス"
+                  data-post="/api/tickets/{story.id}/status"
+                  data-name="status"> <Options options="{story.statuses}"/> </select>
+                <a class="text-xs text-indigo-600 hover:underline" href="{story.refinePath}">分割</a>
+                <a class="text-xs text-indigo-600 hover:underline" href="{story.path}">詳細</a>
+              </div>
+              {if story.hasItems}
+                <div class="mt-1 ml-9"><StoryItems items="{story.items}"/></div>
+              {/if}
+            </li>
+          {/for}
+          <li
+            class="h-4 data-[drop-over]:bg-indigo-200"
+            data-drop="/api/tickets/:id/move"
+            data-drop-kind="story"
+            data-param-before-id="0"></li>
+        </ol>
+      {/if}
+    {else}
+      <p class="text-sm text-slate-500">まだストーリーがありません。</p>
+    {/if}
+    <NewStoryForm unitId="{unitId}"/>
+  </div>
+}
+
+component BacklogView(unitId: int, view: Backlog): html {
+  <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+    <section class="space-y-3">
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <h2 class="text-sm font-semibold text-slate-500">プロダクトバックログ（優先順位順）</h2>
+        <LayoutToggle layout="{view.layout}"/>
+      </div>
+      {if view.hasRows}
+        {if view.layout.cards}
+          <div class="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            {for row in view.rows}
+              <article
+                draggable="true"
+                data-drag-id="{row.id}"
+                data-drag-kind="pbi"
+                data-drop="/api/tickets/:id/move"
+                data-drop-kind="pbi"
+                data-param-before-id="{row.id}"
+                class="flex cursor-grab flex-col gap-2 rounded-lg border border-slate-200 bg-white p-3 shadow-sm data-[drop-over]:border-indigo-500 data-[dragging]:opacity-40">
+                <div class="flex items-start gap-2">
+                  <span class="mt-0.5 text-xs tabular-nums text-slate-400">{row.position}</span>
+                  <a
+                    class="min-w-0 flex-1 font-medium hover:text-indigo-700 hover:underline"
+                    href="{row.path}">{row.title}</a>
+                </div>
+                {if row.parentLabel != ""}
+                  <a
+                    class="truncate text-xs text-slate-500 hover:text-indigo-700 hover:underline"
+                    href="{row.parentPath}">ストーリー: {row.parentLabel}</a>
+                {else}
+                  <span class="text-xs text-slate-400">ストーリーなし</span>
+                {/if}
+                <div class="mt-auto flex items-center gap-2 pt-1">
+                  <select
+                    class="rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                    aria-label="ステータス"
+                    data-post="/api/tickets/{row.id}/status"
+                    data-name="status"> <Options options="{row.statuses}"/> </select>
+                  <select
+                    class="min-w-0 flex-1 rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                    aria-label="スプリント"
+                    data-post="/api/tickets/{row.id}/sprint"
+                    data-name="sprintId"
+                    data-int> <Options options="{row.sprints}"/> </select>
+                </div>
+              </article>
+            {/for}
+            <div
+              class="min-h-12 rounded-lg border border-dashed border-slate-200 data-[drop-over]:border-indigo-500 data-[drop-over]:bg-indigo-50"
+              data-drop="/api/tickets/:id/move"
+              data-drop-kind="pbi"
+              data-param-before-id="0"></div>
+          </div>
+        {else}
+          <ol class="overflow-hidden rounded-lg border border-slate-200 bg-white">
+            {for row in view.rows}
+              <li
+                draggable="true"
+                data-drag-id="{row.id}"
+                data-drag-kind="pbi"
+                data-drop="/api/tickets/:id/move"
+                data-drop-kind="pbi"
+                data-param-before-id="{row.id}"
+                class="flex cursor-grab items-center gap-3 border-b border-slate-100 px-3 py-2 data-[drop-over]:border-t-2 data-[drop-over]:border-t-indigo-500 data-[dragging]:opacity-40">
+                <span class="w-6 shrink-0 text-right text-xs tabular-nums text-slate-400">{row.position}</span>
+                <span class="min-w-0 flex-1">
+                  <a class="font-medium hover:text-indigo-700 hover:underline" href="{row.path}">{row.title}</a>
+                  {if row.parentLabel != ""}
+                    <a
+                      class="block truncate text-xs text-slate-500 hover:text-indigo-700 hover:underline"
+                      href="{row.parentPath}">ストーリー: {row.parentLabel}</a>
+                  {else}
+                    <span class="block text-xs text-slate-400">ストーリーなし</span>
+                  {/if}
+                </span>
+                <select
+                  class="rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                  aria-label="ステータス"
+                  data-post="/api/tickets/{row.id}/status"
+                  data-name="status"> <Options options="{row.statuses}"/> </select>
+                <select
+                  class="max-w-40 rounded border border-slate-300 bg-white px-2 py-1 text-xs"
+                  aria-label="スプリント"
+                  data-post="/api/tickets/{row.id}/sprint"
+                  data-name="sprintId"
+                  data-int> <Options options="{row.sprints}"/> </select>
+              </li>
+            {/for}
+            <li
+              class="h-4 data-[drop-over]:bg-indigo-200"
+              data-drop="/api/tickets/:id/move"
+              data-drop-kind="pbi"
+              data-param-before-id="0"></li>
+          </ol>
+        {/if}
+      {else}
+        <p class="text-sm text-slate-500">PBI がまだありません。リファインメントでストーリーを分割するか、下から直接追加してください。</p>
+      {/if}
+      <form
+        data-api="/api/units/{unitId}/tickets"
+        data-tb-ignore
+        data-refocus="backlog-pbi"
+        class="flex gap-2">
+        <input type="hidden" name="type" value="pbi">
+        <input
+          class="min-w-0 flex-1 rounded border border-slate-300 bg-white px-3 py-1.5 text-sm"
+          name="title"
+          required
+          maxlength="500"
+          data-refocus-target="backlog-pbi"
+          placeholder="PBI を直接追加">
+        <button
+          class="rounded bg-sky-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-sky-700"
+          type="submit">追加</button>
+      </form>
+    </section>
+    <aside class="space-y-3">
+      <h2 class="text-sm font-semibold text-slate-500">スプリント</h2>
+      {if view.hasSprints}
+        <SprintList sprints="{view.sprints}"/>
+        <p class="text-xs text-slate-500">PBI をスプリントにドラッグすると投入できます。</p>
+      {else}
+        <p class="text-sm text-slate-500">スプリントがまだありません。</p>
+      {/if}
+      <NewSprintForm unitId="{unitId}"/>
+    </aside>
+  </div>
+}
+
+component TaskList(unitId: int, card: Card): html {
+  <div class="mt-2 space-y-1 border-t border-slate-100 pt-2">
+    {for task in card.tasks}
+      <div class="flex items-center gap-1.5">
+        <button
+          class="shrink-0 text-base leading-none {task.tone}"
+          type="button"
+          title="{task.statusLabel}"
+          aria-label="{task.statusLabel}"
+          data-post="/api/tickets/{task.id}/status"
+          data-param-status="{task.nextStatus}">{task.mark}</button>
+        <input
+          class='min-w-0 flex-1 rounded border border-transparent px-1 py-0.5 text-xs hover:border-slate-200 focus:border-indigo-400 focus:outline-none {task.done ? "text-slate-400 line-through" : ""}'
+          value="{task.title}"
+          aria-label="タスク"
+          data-autosave="/api/tickets/{task.id}/text"
+          data-field="title">
+      </div>
+    {/for}
+    <form
+      data-api="/api/units/{unitId}/tickets"
+      data-tb-ignore
+      data-ints="parentId"
+      data-refocus="task-under-{card.id}">
+      <input type="hidden" name="type" value="task">
+      <input type="hidden" name="parentId" value="{card.id}">
+      <input
+        class="w-full rounded border border-dashed border-slate-300 px-1.5 py-0.5 text-xs"
+        name="title"
+        required
+        maxlength="500"
+        data-refocus-target="task-under-{card.id}"
+        placeholder="タスクを追加（Enter）">
+    </form>
+  </div>
+}
+
+component BoardLayout(unitId: int, view: SprintView): html {
+  <div class="grid gap-4 md:grid-cols-3">
+    {for column in view.columns}
+      <section
+        class="min-h-40 rounded-lg bg-slate-100 p-3 data-[drop-over]:bg-indigo-100"
+        data-drop="/api/tickets/:id/status"
+        data-drop-kind="card"
+        data-param-status="{column.dropStatus}">
+        <h3 class="mb-3 flex items-baseline justify-between text-sm font-semibold text-slate-600"><span>{column.label}</span><span class="text-xs font-normal text-slate-400">{column.count}</span></h3>
+        <div class="space-y-2">
+          {for card in column.cards}
+            <article
+              draggable="true"
+              data-drag-id="{card.id}"
+              data-drag-kind="card"
+              class="cursor-grab rounded-md border border-slate-200 bg-white p-3 shadow-sm data-[dragging]:opacity-40">
+              <a
+                class="block text-sm font-medium hover:text-indigo-700 hover:underline"
+                href="{card.path}">{card.title}</a>
+              {if card.parentLabel != ""}<p class="mt-0.5 truncate text-xs text-slate-500">{card.parentLabel}</p>{/if}
+              <select
+                class="mt-2 max-w-full rounded border border-slate-200 bg-white px-1.5 py-0.5 text-xs text-slate-600"
+                aria-label="担当"
+                data-post="/api/tickets/{card.id}/assignee"
+                data-name="accountId"> <Options options="{card.assignees}"/> </select>
+              {if card.doing} <TaskList unitId="{unitId}" card="{card}"/> {/if}
+            </article>
+          {/for}
+        </div>
+      </section>
+    {/for}
+  </div>
+}
+
+component ListLayout(unitId: int, view: SprintView): html {
+  <div class="overflow-hidden rounded-lg border border-slate-200 bg-white">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-50 text-left text-xs text-slate-500">
+        <tr>
+          <th class="px-3 py-2 font-semibold">種別</th>
+          <th class="w-1/2 px-3 py-2 font-semibold">タイトル</th>
+          <th class="px-3 py-2 font-semibold">ステータス</th>
+          <th class="px-3 py-2 font-semibold">担当</th>
+          <th class="px-3 py-2 font-semibold">親</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        {for card in view.cards}
+          <tr>
+            <td class="px-3 py-1.5"><KindBadge kind="pbi" label="PBI"/></td>
+            <td class="px-3 py-1.5">
+              <input
+                class="w-full rounded border border-transparent px-1 py-0.5 font-medium hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+                value="{card.title}"
+                aria-label="タイトル"
+                data-autosave="/api/tickets/{card.id}/text"
+                data-field="title">
+            </td>
+            <td class="px-3 py-1.5">
+              <select
+                class="rounded border border-slate-300 bg-white px-2 py-0.5 text-xs"
+                aria-label="ステータス"
+                data-post="/api/tickets/{card.id}/status"
+                data-name="status"> <Options options="{card.statuses}"/> </select>
+            </td>
+            <td class="px-3 py-1.5">
+              <select
+                class="rounded border border-slate-300 bg-white px-2 py-0.5 text-xs"
+                aria-label="担当"
+                data-post="/api/tickets/{card.id}/assignee"
+                data-name="accountId"> <Options options="{card.assignees}"/> </select>
+            </td>
+            <td class="px-3 py-1.5 text-xs text-slate-500">{card.parentLabel}
+              <a class="text-indigo-600 hover:underline" href="{card.path}">詳細</a></td>
+          </tr>
+          {for task in card.tasks}
+            <tr class="bg-slate-50/50">
+              <td class="py-1 pl-8 pr-3"><KindBadge kind="task" label="タスク"/></td>
+              <td class="px-3 py-1">
+                <input
+                  class="w-full rounded border border-transparent px-1 py-0.5 text-xs hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+                  value="{task.title}"
+                  aria-label="タスク"
+                  data-autosave="/api/tickets/{task.id}/text"
+                  data-field="title">
+              </td>
+              <td class="px-3 py-1">
+                <select
+                  class="rounded border border-slate-300 bg-white px-2 py-0.5 text-xs"
+                  aria-label="ステータス"
+                  data-post="/api/tickets/{task.id}/status"
+                  data-name="status"> <Options options="{task.statuses}"/> </select>
+              </td>
+              <td class="px-3 py-1"></td>
+              <td class="px-3 py-1"></td>
+            </tr>
+          {/for}
+        {/for}
+      </tbody>
+    </table>
+  </div>
+}
+
+component SprintPane(unitId: int, view: SprintView): html {
+  {if view.exists}
+    <div class="grid gap-6 lg:grid-cols-[minmax(0,1fr)_16rem]">
+      <section class="space-y-4">
+        <div class="space-y-3 rounded-lg border border-slate-200 bg-white p-4">
+          <div class="flex flex-wrap items-center gap-3">
+            <input
+              class="min-w-0 flex-1 rounded border border-transparent px-2 py-1 text-xl font-bold hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+              value="{view.name}"
+              aria-label="スプリント名"
+              data-autosave="/api/sprints/{view.id}/field"
+              data-field="name">
+            <input
+              class="rounded border border-slate-200 px-2 py-1 text-sm"
+              type="date"
+              value="{view.startsOn}"
+              aria-label="開始日"
+              data-autosave="/api/sprints/{view.id}/field"
+              data-field="starts_on">
+            <span class="text-slate-400">〜</span>
+            <input
+              class="rounded border border-slate-200 px-2 py-1 text-sm"
+              type="date"
+              value="{view.endsOn}"
+              aria-label="終了日"
+              data-autosave="/api/sprints/{view.id}/field"
+              data-field="ends_on">
+            <select
+              class="rounded border border-slate-300 bg-white px-2 py-1 text-sm"
+              aria-label="状態"
+              data-post="/api/sprints/{view.id}/field"
+              data-param-field="state"
+              data-name="value"> <Options options="{view.states}"/> </select>
+          </div>
+          <label class="block">
+            <span class="mb-1 block text-xs font-semibold text-slate-500">スプリントゴール</span>
+            <textarea
+              class="w-full rounded border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+              rows="2"
+              data-autosave="/api/sprints/{view.id}/field"
+              data-field="goal">{view.goal}</textarea>
+          </label>
+        </div>
+        <div class="flex gap-1 text-sm">
+          <a
+            class='rounded px-3 py-1 {view.board ? "bg-slate-800 text-white" : "text-slate-600 hover:bg-slate-200"}'
+            href="{view.boardPath}">ボード</a>
+          <a
+            class='rounded px-3 py-1 {view.board ? "text-slate-600 hover:bg-slate-200" : "bg-slate-800 text-white"}'
+            href="{view.listPath}">リスト</a>
+        </div>
+        {if view.hasCards}
+          {if view.board}
+            <BoardLayout unitId="{unitId}" view="{view}"/>
+          {else}
+            <ListLayout unitId="{unitId}" view="{view}"/>
+          {/if}
+        {else}
+          <p class="rounded-lg border border-dashed border-slate-300 p-8 text-center text-sm text-slate-500">このスプリントにはまだ PBI がありません。<a
+              class="text-indigo-600 hover:underline"
+              href="{view.backlogPath}">バックログ</a>から投入してください。</p>
+        {/if}
+      </section>
+      <aside class="space-y-3">
+        <h2 class="text-sm font-semibold text-slate-500">スプリント</h2>
+        <SprintList sprints="{view.sprints}"/>
+        <NewSprintForm unitId="{unitId}"/>
+      </aside>
+    </div>
+  {else}
+    <div class="mx-auto max-w-md space-y-3 rounded-lg border border-dashed border-slate-300 p-8 text-center">
+      <p class="text-slate-500">スプリントがまだありません。</p>
+      <NewSprintForm unitId="{unitId}"/>
+    </div>
+  {/if}
+}
+
+export component Page(unit: int, view: string, story: int?, sprint: int?, layout: string?): html {
+  {val data = LoadView(unit, view, story, sprint, layout)}
+  <div class="space-y-5">
+    <div>
+      <div class="flex items-center gap-3 text-sm">
+        <a class="text-indigo-600 hover:underline" href="/">← プロジェクト一覧</a>
+        <a class="text-slate-500 hover:underline" href="{data.nav.projectPath}">メンバー</a>
+      </div>
+      <div class="mt-1 flex flex-wrap items-end justify-between gap-3 border-b border-slate-200">
+        <h1 class="pb-2 text-2xl font-bold">{data.nav.projectName}</h1>
+        <nav class="flex gap-1">
+          {for tab in data.nav.tabs}
+            <a
+              class='border-b-2 px-4 py-2 text-sm font-medium {tab.current ? "border-indigo-600 text-indigo-700" : "border-transparent text-slate-500 hover:text-slate-800"}'
+              href="{tab.path}">{tab.label}</a>
+          {/for}
+        </nav>
+      </div>
+    </div>
+    {if data.mode == "stories"}
+      <StoriesView unitId="{data.unitId}" view="{data.stories}"/>
+    {else if data.mode == "refinement"}
+      <RefinementView unitId="{data.unitId}" view="{data.refinement}"/>
+    {else if data.mode == "backlog"}
+      <BacklogView unitId="{data.unitId}" view="{data.backlog}"/>
+    {else}
+      <SprintPane unitId="{data.unitId}" view="{data.sprint}"/>
+    {/if}
+  </div>
+}

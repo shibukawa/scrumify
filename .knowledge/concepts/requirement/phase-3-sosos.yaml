@@ -1,0 +1,16 @@
+id: requirement:phase-3-sosos
+type: requirement
+title: Phase 3 SoSoS
+summary: ''
+facts:
+  includes:
+  - SoSoS and MetaScrum (hierarchical flow:backlog-distribution, release planning)
+  - estimation support from similar cases
+  - assignment to actor:ai-agent
+relations:
+- relation: mentions
+  to: actor:ai-agent
+  resolution: resolved
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved

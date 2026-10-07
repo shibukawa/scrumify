@@ -1,0 +1,11 @@
+id: data:sprint
+type: data
+title: Sprint
+summary: Sprint record per data:unit; data:scrum-event-occurrence records belong to it.
+relations:
+- relation: mentions
+  to: data:scrum-event-occurrence
+  resolution: resolved
+- relation: mentions
+  to: data:unit
+  resolution: resolved

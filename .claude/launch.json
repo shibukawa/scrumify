@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "scrumify",
+      "runtimeExecutable": "devbox",
+      "runtimeArgs": ["run", "--", "pw", "dev"],
+      "port": 8080
+    }
+  ]
+}

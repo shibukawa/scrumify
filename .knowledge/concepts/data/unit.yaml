@@ -1,0 +1,5 @@
+id: data:unit
+type: data
+title: Unit
+summary: Tree of organizational units (team, SoS, SoSoS) with validity periods to survive reorganizations.
+relations: []
