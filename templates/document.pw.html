@@ -1,0 +1,20 @@
+package templates
+
+external AssetURL(name: string): url
+
+external RuntimeScriptURL(): url
+
+export component Document(children: html?): html {
+  <!doctype html>
+  <html lang="ja">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Scrumify</title>
+      <link rel="stylesheet" href='{AssetURL("generated/app.css")}'>
+      <script type="module" src="{RuntimeScriptURL()}"></script>
+      <script type="module" src='{AssetURL("scrumify.js")}'></script>
+    </head>
+    <body class="bg-slate-50 text-slate-900 antialiased"><slot/></body>
+  </html>
+}
