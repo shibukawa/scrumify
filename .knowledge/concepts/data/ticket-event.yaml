@@ -1,0 +1,28 @@
+id: data:ticket-event
+type: data
+title: Ticket Event
+summary: Change record per rule:change-history; same-day edits by one actor are merged (rule:history-coalescing).
+facts:
+  fields:
+  - actor_id
+  - on_behalf_of
+  - kind
+  - changes (from/to)
+  - reason
+  - context
+  - proposal_id
+  - correlation_id
+  - schema_version
+  refs:
+    actor_id: data:actor
+    proposal_id: data:ai-proposal
+relations:
+- relation: mentions
+  to: data:actor
+  resolution: resolved
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: rule:change-history
+  resolution: resolved

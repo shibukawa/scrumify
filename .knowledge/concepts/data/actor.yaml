@@ -1,0 +1,11 @@
+id: data:actor
+type: data
+title: Actor Record
+summary: ''
+facts:
+  fields:
+    kind:
+    - human
+    - ai
+    responsible_human: required for ai
+relations: []

@@ -1,0 +1,13 @@
+id: decision:event-inbox-over-personal-queue
+type: decision
+title: Event Inbox Over Personal Queue
+summary: Triage of unsorted findings/feedback and ranking of distributed upper items go to ui:refinement-inbox
+  as team agenda, not to a PO personal queue, to avoid a PO bottleneck under AI-speed development (term:event-inbox).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-inbox
+  resolution: resolved

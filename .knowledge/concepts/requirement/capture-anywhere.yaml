@@ -1,0 +1,12 @@
+id: requirement:capture-anywhere
+type: requirement
+title: Capture Anywhere
+summary: Every finding can be filed as a ticket at the place it occurs, via ui:quick-add; origin event
+  and parent are linked automatically (data:ticket).
+relations:
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: ui:quick-add
+  resolution: resolved

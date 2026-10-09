@@ -1,0 +1,6 @@
+id: rule:cross-team-aggregation
+type: rule
+title: Cross-Team Aggregation
+summary: At SoS and above, units and ratios differ per team, so estimates are converted to sprint counts
+  before comparing or summing.
+relations: []

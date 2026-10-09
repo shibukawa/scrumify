@@ -1,0 +1,13 @@
+id: term:event-inbox
+type: term
+title: Event Inbox
+summary: A ui:saved-view preset filtered by ticket state and attached to a Scrum event view; team-shared,
+  not addressed to a person. Lets the team process items together during the event so actor:product-owner
+  does not become a bottleneck when AI-driven development is fast.
+relations:
+- relation: mentions
+  to: actor:product-owner
+  resolution: resolved
+- relation: mentions
+  to: ui:saved-view
+  resolution: resolved

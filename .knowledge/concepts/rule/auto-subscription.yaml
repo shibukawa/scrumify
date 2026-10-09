@@ -1,0 +1,17 @@
+id: rule:auto-subscription
+type: rule
+title: Auto Subscription
+summary: Anyone who appears as actor in a ticket's data:ticket-event history is added to its notification
+  list automatically; each person can remove themselves. Supports policy:open-editing by making changes
+  reach involved people.
+facts:
+  add: on any operation recorded on the ticket
+  remove: manual unsubscribe by the person
+  notify_on: changes to subscribed tickets
+relations:
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: policy:open-editing
+  resolution: resolved

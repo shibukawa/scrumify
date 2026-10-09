@@ -1,0 +1,36 @@
+id: data:ticket-note
+type: data
+title: Ticket Note
+summary: Supplementary information inside a ticket (mainly PBI) that actor:ai-agent may read and write
+  freely; changes are still events (rule:change-history).
+facts:
+  kinds:
+  - design
+  - question
+  - other
+  question:
+    fields:
+    - addressee
+    - state
+    state:
+    - open
+    - answered
+    origin: AI question for PO from flow:ai-refinement-proposal, or raised during work
+    effect: open question is shown in ui:review-queue for the addressee, and in ui:ready-gap-inbox for
+      sprint items
+relations:
+- relation: mentions
+  to: actor:ai-agent
+  resolution: resolved
+- relation: mentions
+  to: flow:ai-refinement-proposal
+  resolution: resolved
+- relation: mentions
+  to: rule:change-history
+  resolution: resolved
+- relation: mentions
+  to: ui:ready-gap-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:review-queue
+  resolution: resolved

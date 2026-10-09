@@ -1,0 +1,17 @@
+id: data:project
+type: data
+title: Project
+summary: Access-control boundary; members can read and write everything inside. No finer-grained visibility
+  control.
+facts:
+  contains:
+  - data:unit
+  - data:ticket
+  access: project membership only
+relations:
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: data:unit
+  resolution: resolved

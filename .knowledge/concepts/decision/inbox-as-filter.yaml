@@ -1,0 +1,13 @@
+id: decision:inbox-as-filter
+type: decision
+title: Inbox As State Filter
+summary: An inbox is only a state-filtered ui:saved-view preset placed in an event view, not a separate
+  entity or queue (term:event-inbox).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:saved-view
+  resolution: resolved

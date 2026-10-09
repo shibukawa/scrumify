@@ -1,0 +1,48 @@
+id: vision:scrum-ticket-service
+type: vision
+title: Scrum Ticket Service
+summary: Ticket service that shapes ticket views and flow per Scrum event, with one mechanism from a single
+  team up to Scrum@Scale (SoSoS).
+facts:
+  scope:
+    levels:
+    - team
+    - sos
+    - sosos
+    max_teams: about 25
+    core_flow: split stories into PBIs, add to backlog from dev perspective
+  principles:
+  - requirement:event-views
+  - requirement:capture-anywhere
+  - policy:open-editing
+  - rule:change-history
+  - policy:ai-constraints
+  phases:
+  - requirement:phase-1-mvp
+  - requirement:phase-2-sos
+  - requirement:phase-3-sosos
+relations:
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved
+- relation: mentions
+  to: policy:open-editing
+  resolution: resolved
+- relation: mentions
+  to: requirement:capture-anywhere
+  resolution: resolved
+- relation: mentions
+  to: requirement:event-views
+  resolution: resolved
+- relation: mentions
+  to: requirement:phase-1-mvp
+  resolution: resolved
+- relation: mentions
+  to: requirement:phase-2-sos
+  resolution: resolved
+- relation: mentions
+  to: requirement:phase-3-sosos
+  resolution: resolved
+- relation: mentions
+  to: rule:change-history
+  resolution: resolved

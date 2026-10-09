@@ -1,0 +1,20 @@
+id: requirement:ai-learning-data
+type: requirement
+title: AI Learning Data
+summary: Data kept to improve AI assistance; scope governed by policy:learning-scope.
+facts:
+  keep:
+  - data:ai-proposal outcome (adopted, edited, rejected) and diff
+  - whether adopted split later caused rework
+  - AI execution record (duration, cost, success, amount of human correction)
+  - data:snapshot as source for similarity search
+relations:
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: data:snapshot
+  resolution: resolved
+- relation: mentions
+  to: policy:learning-scope
+  resolution: resolved

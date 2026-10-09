@@ -1,0 +1,9 @@
+id: decision:no-github-integration-yet
+type: decision
+title: No GitHub Integration Yet
+summary: GitHub integration is out of scope for now; PR/branch link in ui:daily-view stays a manual field.
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: ui:daily-view
+  resolution: resolved

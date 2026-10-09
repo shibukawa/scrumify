@@ -1,0 +1,16 @@
+id: decision:questions-not-ready-condition
+type: decision
+title: Questions Are Not Ready Conditions
+summary: Open questions in data:ticket-note do not affect readiness; ui:ready-gap-inbox shows them for
+  information only (rule:ready-judgment).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved
+- relation: mentions
+  to: ui:ready-gap-inbox
+  resolution: resolved

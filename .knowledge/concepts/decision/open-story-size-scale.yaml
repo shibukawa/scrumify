@@ -1,0 +1,13 @@
+id: decision:open-story-size-scale
+type: decision
+title: 'Open: Story Size Scale'
+summary: Story size scale (Fibonacci, T-shirt, etc.) and the count/period of stories used for rule:conversion-ratio.
+lifecycle: proposed
+open_questions:
+  story-size-scale:
+    text: Story size scale (Fibonacci, T-shirt, etc.) and the count/period of stories used for rule:conversion-ratio.
+    state: open
+relations:
+- relation: mentions
+  to: rule:conversion-ratio
+  resolution: resolved

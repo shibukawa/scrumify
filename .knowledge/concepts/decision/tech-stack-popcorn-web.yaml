@@ -1,0 +1,9 @@
+id: decision:tech-stack-popcorn-web
+type: decision
+title: 'Tech Stack: Popcorn Web'
+summary: The service is built on system:popcorn-web (Go, server-rendered, PostgreSQL).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: system:popcorn-web
+  resolution: resolved

@@ -1,0 +1,28 @@
+id: system:popcorn-web
+type: system
+title: Popcorn Web
+summary: Go web framework used to build the service; source https://shibukawa.github.io/popcornweb/ (facts
+  from its top page, to verify against docs when implementing).
+facts:
+  language: Go (also TinyGo)
+  server: net/http handlers, routing by net/http ServeMux
+  ui: server-rendered typed templates (.pw.html) with scoped styles, async and live rendering, optional
+    Tailwind
+  data: PostgreSQL with typed SQL generated ahead of time (pw generate)
+  generate: templates, SQL, bindings, OpenAPI
+  security: CSRF protection, WebAuthn passkeys, security headers, sessions
+  ops: OpenTelemetry tracing, zstd/gzip compression
+  cli:
+  - pw init
+  - pw dev
+  - pw generate
+  fit:
+  - data:ticket-event as a PostgreSQL table
+  - OpenAPI generation as a base for api:agent-interface later
+relations:
+- relation: mentions
+  to: api:agent-interface
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved

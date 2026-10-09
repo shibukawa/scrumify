@@ -1,0 +1,9 @@
+id: decision:mcp-is-human-ui
+type: decision
+title: MCP Is A Human UI
+summary: Operations through API/MCP are attributed to the human user like GUI operations (api:agent-interface).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: api:agent-interface
+  resolution: resolved

@@ -1,0 +1,23 @@
+id: flow:backlog-distribution
+type: flow
+title: Backlog Distribution
+summary: ''
+facts:
+  flow:
+    trigger: actor:chief-product-owner distributes an upper backlog item
+    steps:
+    - id: distribute
+      action: create child items in team backlogs (data:ticket parent link)
+    - id: rank
+      actor: actor:product-owner
+      action: rank within team backlog
+relations:
+- relation: mentions
+  to: actor:chief-product-owner
+  resolution: resolved
+- relation: mentions
+  to: actor:product-owner
+  resolution: resolved
+- relation: mentions
+  to: data:ticket
+  resolution: resolved

@@ -1,0 +1,39 @@
+id: concept:two-cycles
+type: concept
+title: PO Cycle and SM Cycle
+summary: Scrum@Scale runs two cycles across levels; PO cycle decides what to build, SM cycle how to deliver.
+facts:
+  levels:
+    top:
+      po: MetaScrum
+      sm: EAT (Executive Action Team)
+    sosos:
+      po: actor:chief-product-owner
+      sm: actor:sos-master
+    sos:
+      po: actor:chief-product-owner
+      sm: actor:sos-master
+    team:
+      po: actor:product-owner
+      sm: actor:scrum-master
+  down_po: flow:backlog-distribution
+  up_sm: flow:impediment-escalation
+relations:
+- relation: mentions
+  to: actor:chief-product-owner
+  resolution: resolved
+- relation: mentions
+  to: actor:product-owner
+  resolution: resolved
+- relation: mentions
+  to: actor:scrum-master
+  resolution: resolved
+- relation: mentions
+  to: actor:sos-master
+  resolution: resolved
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved

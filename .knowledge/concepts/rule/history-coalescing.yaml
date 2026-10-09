@@ -1,0 +1,35 @@
+id: rule:history-coalescing
+type: rule
+title: History Coalescing
+summary: Edits by the same person on the same day are merged into one change history entry, so rule:autosave does not flood the history.
+lifecycle: accepted
+facts:
+  group_when: same actor, fixed window of one calendar day (until the date changes)
+  where: merged in stored data:ticket-event; the day's entry is updated in place (rule:change-history)
+  merged_entry: keeps the value before the first edit of the day and the latest value
+  provisional_assumptions:
+    status: not agreed, reversible defaults
+    unit: per ticket
+    date_boundary: project timezone
+open_questions:
+  time-window:
+    text: How close in time edits must be to be grouped.
+    state: answered
+    resolution: Fixed window; edits until the date changes are merged.
+  grouping-layer:
+    text: Whether grouping happens when storing events or only when showing history.
+    state: answered
+    resolution: When storing; history is not append-only (rule:change-history).
+  grouping-unit:
+    text: Whether grouping is per ticket, per field, or across tickets edited in one sitting.
+    state: open
+  date-boundary:
+    text: Which timezone decides when the date changes.
+    state: open
+relations:
+- relation: constrained_by
+  to: rule:change-history
+- relation: mentions
+  to: rule:autosave
+- relation: mentions
+  to: data:ticket-event

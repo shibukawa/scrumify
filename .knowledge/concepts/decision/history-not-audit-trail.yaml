@@ -1,0 +1,10 @@
+id: decision:history-not-audit-trail
+type: decision
+title: History Is Not An Audit Trail
+summary: Change history is not audit evidence, so the append-only, no-rewrite rule is dropped and same-day edits are merged (rule:change-history, rule:history-coalescing).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:change-history
+- relation: mentions
+  to: rule:history-coalescing

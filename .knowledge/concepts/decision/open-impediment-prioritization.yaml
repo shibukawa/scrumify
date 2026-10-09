@@ -1,0 +1,13 @@
+id: decision:open-impediment-prioritization
+type: decision
+title: 'Open: Impediment Prioritization'
+summary: How impediments are prioritized and separated from the backlog screen (rule:backlog-membership).
+lifecycle: proposed
+open_questions:
+  impediment-prioritization:
+    text: How impediments are prioritized and separated from the backlog screen (rule:backlog-membership).
+    state: open
+relations:
+- relation: mentions
+  to: rule:backlog-membership
+  resolution: resolved

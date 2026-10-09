@@ -1,0 +1,30 @@
+id: requirement:scale-support
+type: requirement
+title: Scrum@Scale Requirements
+summary: Additional requirements for SoS and above, built on concept:two-cycles.
+facts:
+  requires:
+  - hierarchical backlog (flow:backlog-distribution)
+  - warning on cross-team dependency (data:ticket-link kind dependency)
+  - impediment escalation by changing unit (flow:impediment-escalation)
+  - upper-level aggregation computed from data:snapshot
+  - cross-team comparison per rule:cross-team-aggregation
+relations:
+- relation: mentions
+  to: concept:two-cycles
+  resolution: resolved
+- relation: mentions
+  to: data:snapshot
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-link
+  resolution: resolved
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved
+- relation: mentions
+  to: rule:cross-team-aggregation
+  resolution: resolved

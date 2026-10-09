@@ -1,0 +1,26 @@
+id: ui:impediment-inbox
+type: ui
+title: Impediment Inbox
+summary: term:event-inbox of unresolved impediments for the current unit.
+facts:
+  filter: type impediment, not resolved, unit is the viewed data:unit
+  shows: escalation_level, age
+  used_in:
+  - ui:daily-view for team impediments
+  - ui:sos-sm-view for impediments escalated to that level (flow:impediment-escalation)
+relations:
+- relation: mentions
+  to: data:unit
+  resolution: resolved
+- relation: mentions
+  to: flow:impediment-escalation
+  resolution: resolved
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:daily-view
+  resolution: resolved
+- relation: mentions
+  to: ui:sos-sm-view
+  resolution: resolved

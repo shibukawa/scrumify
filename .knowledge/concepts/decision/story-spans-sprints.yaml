@@ -1,0 +1,6 @@
+id: decision:story-spans-sprints
+type: decision
+title: Story Spans Sprints
+summary: A story may span multiple sprints.
+lifecycle: accepted
+relations: []

@@ -1,0 +1,16 @@
+id: ui:review-view
+type: ui
+title: Review View
+summary: ''
+facts:
+  ui:
+    root:
+      kind: screen
+      id: screen.review
+      children:
+      - kind: list
+        id: done-items-by-story
+      - kind: button
+        label: File remark
+        action: one-tap ticket linked to source story
+relations: []

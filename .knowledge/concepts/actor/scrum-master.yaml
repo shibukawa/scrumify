@@ -1,0 +1,11 @@
+id: actor:scrum-master
+type: actor
+title: Scrum Master
+summary: ''
+facts:
+  level: team
+  cycle: sm
+  duties:
+  - facilitate events
+  - resolve or escalate impediments
+relations: []

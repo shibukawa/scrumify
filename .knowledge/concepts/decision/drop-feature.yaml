@@ -1,0 +1,35 @@
+id: decision:drop-feature
+type: decision
+title: Drop The Feature Level
+summary: 'The hierarchy is story, PBI, task. The feature level between story and PBI is removed: with
+  AI-assisted breakdown, a story that does not fit a sprint is split into smaller stories instead.'
+lifecycle: accepted
+facts:
+  hierarchy: story > pbi > task; a pbi may also stand alone
+  why:
+  - splitting a story to fit a sprint was the feature level's only job; cutting the story itself does
+    the same with one level less
+  - every rule and view carried a feature branch (ready, completion, tree rendering) for an optional level
+  grouping_above_stories: not a ticket level; later phases use upper_item distribution (flow:backlog-distribution)
+    or links between stories
+  implementation: 'done 2026-10-06: schema check constraint, tracker hierarchy rules, refinement tree
+    and forms, labels, tests; the dev databases were recreated because the initial migration was edited
+    before any release'
+history:
+  keep-feature:
+    summary: Earlier the feature level was kept with completion derived from children and a final PO judgment.
+    supersedes:
+    - decision:keep-feature
+relations:
+- relation: supersedes
+  to: decision:keep-feature
+- relation: mentions
+  to: term:ticket-type
+- relation: mentions
+  to: rule:ready-judgment
+- relation: mentions
+  to: rule:completion-confirmation
+- relation: mentions
+  to: flow:backlog-distribution
+- relation: mentions
+  to: requirement:phase-1-mvp

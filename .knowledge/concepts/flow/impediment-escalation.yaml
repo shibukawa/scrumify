@@ -1,0 +1,22 @@
+id: flow:impediment-escalation
+type: flow
+title: Impediment Escalation
+summary: ''
+facts:
+  flow:
+    trigger: impediment or dependency the team cannot resolve
+    steps:
+    - id: file
+      action: create impediment data:ticket in daily
+    - id: escalate
+      action: reassign unit upward (team to SoS to SoSoS to EAT), tracked by escalation_level
+    - id: resolve
+      actor: actor:sos-master
+      action: coordinate and resolve
+relations:
+- relation: mentions
+  to: actor:sos-master
+  resolution: resolved
+- relation: mentions
+  to: data:ticket
+  resolution: resolved

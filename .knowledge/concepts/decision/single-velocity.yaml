@@ -1,0 +1,7 @@
+id: decision:single-velocity
+type: decision
+title: Single Velocity
+summary: Work effort and review effort are not separated in the system; with AI-driven development velocity
+  naturally converges to review effort.
+lifecycle: accepted
+relations: []

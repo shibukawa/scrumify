@@ -1,0 +1,16 @@
+id: rule:backlog-membership
+type: rule
+title: Backlog Membership
+summary: Which ticket types appear in the backlog and carry a rank.
+facts:
+  in_backlog:
+  - story
+  - pbi
+  - finding
+  - improvement_action
+  not_in_backlog:
+  - task
+  - impediment
+  - external_task
+  rank: only on backlog members
+relations: []

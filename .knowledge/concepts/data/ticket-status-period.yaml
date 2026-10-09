@@ -1,0 +1,11 @@
+id: data:ticket-status-period
+type: data
+title: Ticket Status Period
+summary: Per-status dwell periods generated from data:ticket-event; basis of requirement:lead-time-analysis.
+relations:
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: requirement:lead-time-analysis
+  resolution: resolved

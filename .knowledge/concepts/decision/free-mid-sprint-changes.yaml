@@ -1,0 +1,9 @@
+id: decision:free-mid-sprint-changes
+type: decision
+title: Free Mid-Sprint Changes
+summary: Adding, removing, and editing during a sprint is free (policy:open-editing).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: policy:open-editing
+  resolution: resolved

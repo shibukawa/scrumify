@@ -1,0 +1,152 @@
+package id_
+
+type Option { value: string, label: string, selected: bool }
+
+type Crumb { label: string, path: url }
+
+type ChildItem { id: int, kindLabel: string, title: string, statusLabel: string, path: url }
+
+type ChangeLine { label: string, from: string, to: string, added: bool }
+
+type HistoryItem { actorName: string, at: string, summary: string, changes: ChangeLine[] }
+
+type View {
+  id: int
+  kindLabel: string
+  title: string
+  description: string
+  acceptanceCriteria: string
+  crumbs: Crumb[]
+  statuses: Option[]
+  assignees: Option[]
+  planned: bool
+  sprints: Option[]
+  children: ChildItem[]
+  hasChildren: bool
+  history: HistoryItem[]
+  backPath: string
+}
+
+external LoadTicket(id: int): View
+
+component Options(options: Option[]): html {
+  {for option in options}
+    <option value="{option.value}" selected="{option.selected}">{option.label}</option>
+  {/for}
+}
+
+export component Page(id: int): html {
+  {val view = LoadTicket(id)}
+  <div class="mx-auto max-w-4xl space-y-6">
+    <nav class="flex flex-wrap items-center gap-1 text-sm text-slate-500">
+      {for crumb in view.crumbs}
+        <a class="text-indigo-600 hover:underline" href="{crumb.path}">{crumb.label}</a>
+        <span>›</span>
+      {/for}
+      <span>{view.kindLabel} #{view.id}</span>
+    </nav>
+    <div class="space-y-5 rounded-lg border border-slate-200 bg-white p-5">
+      <input
+        class="w-full rounded border border-transparent px-2 py-1 text-2xl font-bold hover:border-slate-200 focus:border-indigo-400 focus:outline-none"
+        value="{view.title}"
+        aria-label="タイトル"
+        data-autosave="/api/tickets/{view.id}/text"
+        data-field="title">
+      <div class="flex flex-wrap gap-4 text-sm">
+        <label class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-slate-500">ステータス</span>
+          <select
+            class="rounded border border-slate-300 bg-white px-2 py-1"
+            data-post="/api/tickets/{view.id}/status"
+            data-name="status"> <Options options="{view.statuses}"/> </select>
+        </label>
+        <label class="flex items-center gap-2">
+          <span class="text-xs font-semibold text-slate-500">担当</span>
+          <select
+            class="rounded border border-slate-300 bg-white px-2 py-1"
+            data-post="/api/tickets/{view.id}/assignee"
+            data-name="accountId"> <Options options="{view.assignees}"/> </select>
+        </label>
+        {if view.planned}
+          <label class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500">スプリント</span>
+            <select
+              class="rounded border border-slate-300 bg-white px-2 py-1"
+              data-post="/api/tickets/{view.id}/sprint"
+              data-name="sprintId"
+              data-int> <Options options="{view.sprints}"/> </select>
+          </label>
+        {/if}
+      </div>
+      <label class="block">
+        <span class="mb-1 block text-xs font-semibold text-slate-500">説明</span>
+        <textarea
+          class="w-full rounded border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+          rows="6"
+          data-autosave="/api/tickets/{view.id}/text"
+          data-field="description">{view.description}</textarea>
+      </label>
+      <label class="block">
+        <span class="mb-1 block text-xs font-semibold text-slate-500">受入条件</span>
+        <textarea
+          class="w-full rounded border border-slate-200 px-3 py-2 text-sm focus:border-indigo-400 focus:outline-none"
+          rows="4"
+          data-autosave="/api/tickets/{view.id}/text"
+          data-field="acceptance_criteria">{view.acceptanceCriteria}</textarea>
+      </label>
+      {if view.hasChildren}
+        <div>
+          <h2 class="mb-1 text-xs font-semibold text-slate-500">配下のチケット</h2>
+          <ul class="divide-y divide-slate-100 rounded border border-slate-200">
+            {for child in view.children}
+              <li>
+                <a
+                  class="flex items-baseline gap-2 px-3 py-1.5 text-sm hover:bg-indigo-50"
+                  href="{child.path}">
+                  <span class="shrink-0 text-xs text-slate-500">{child.kindLabel}</span>
+                  <span class="min-w-0 flex-1 font-medium">{child.title}</span>
+                  <span class="shrink-0 text-xs text-slate-500">{child.statusLabel}</span>
+                </a>
+              </li>
+            {/for}
+          </ul>
+        </div>
+      {/if}
+      <div class="flex justify-end">
+        <button
+          class="rounded border border-rose-200 px-3 py-1 text-sm text-rose-600 hover:bg-rose-50"
+          type="button"
+          data-post="/api/tickets/{view.id}/delete"
+          data-then="{view.backPath}"
+          data-confirm="このチケットと配下のチケットを削除しますか？">削除</button>
+      </div>
+    </div>
+    <section class="space-y-2">
+      <h2 class="text-sm font-semibold text-slate-500">変更履歴</h2>
+      <ol class="space-y-2">
+        {for entry in view.history}
+          <li class="rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm">
+            <p class="flex flex-wrap items-baseline gap-2">
+              <span class="font-medium">{entry.actorName}</span>
+              <span>{entry.summary}</span>
+              <span class="text-xs text-slate-400">{entry.at}</span>
+            </p>
+            <ul class="mt-1 space-y-0.5 text-xs text-slate-600">
+              {for change in entry.changes}
+                <li>
+                  <span class="font-semibold">{change.label}</span>:
+                  {if change.added}
+                    <span>{change.to}</span>
+                  {else}
+                    <span class="text-slate-400 line-through">{change.from}</span>
+                    <span>→ {change.to}</span>
+                  {/if}
+                </li>
+              {/for}
+            </ul>
+          </li>
+        {/for}
+      </ol>
+    </section>
+  </div>
+}

@@ -1,0 +1,10 @@
+id: decision:phase-1-skeleton-only
+type: decision
+title: Phase 1 Scope
+summary: Implementation phase 1 is story/PBI breakdown plus refinement, ranked backlog, and sprint kanban/list
+  views, without AI, ready rules, notifications, or estimation (requirement:phase-1-mvp).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: requirement:phase-1-mvp
+  resolution: resolved

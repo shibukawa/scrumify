@@ -1,0 +1,15 @@
+id: decision:open-tamper-proofing
+type: decision
+title: Tamper Proofing Not Needed
+summary: History needs no tamper protection because it is not an audit trail (rule:change-history).
+lifecycle: accepted
+open_questions:
+  tamper-proofing:
+    text: Whether history needs tamper protection.
+    state: answered
+    resolution: Not needed; history is not an audit trail (decision:history-not-audit-trail).
+relations:
+- relation: mentions
+  to: rule:change-history
+- relation: mentions
+  to: decision:history-not-audit-trail

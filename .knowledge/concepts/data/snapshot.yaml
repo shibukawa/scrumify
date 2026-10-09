@@ -1,0 +1,16 @@
+id: data:snapshot
+type: data
+title: Snapshot
+summary: Frozen copy of ticket content and estimate at key moments.
+facts:
+  taken_at:
+  - ready
+  - sprint_commit
+  - done
+  used_for:
+  - estimate accuracy
+  - scope change
+  - carry-over rate
+  - similarity search source
+  - upper-level aggregation
+relations: []

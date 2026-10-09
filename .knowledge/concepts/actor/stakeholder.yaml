@@ -1,0 +1,10 @@
+id: actor:stakeholder
+type: actor
+title: Stakeholder
+summary: ''
+facts:
+  level: all
+  duties:
+  - file tickets
+  - give feedback in review
+relations: []

@@ -1,0 +1,16 @@
+id: decision:ai-write-scope
+type: decision
+title: AI Write Scope
+summary: Ticket creation such as PBIs is done by humans through api:agent-interface with AI assistance;
+  AI writes freely only to data:ticket-note (policy:ai-constraints).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: api:agent-interface
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved

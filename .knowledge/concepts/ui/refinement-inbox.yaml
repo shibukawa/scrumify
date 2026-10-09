@@ -1,0 +1,18 @@
+id: ui:refinement-inbox
+type: ui
+title: Refinement Inbox
+summary: term:event-inbox shown in ui:refinement-view as the refinement agenda.
+facts:
+  sources:
+  - unsorted findings and feedback to triage
+  - upper items distributed by flow:backlog-distribution awaiting team ranking
+relations:
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-view
+  resolution: resolved

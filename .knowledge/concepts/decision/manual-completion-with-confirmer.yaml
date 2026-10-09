@@ -1,0 +1,10 @@
+id: decision:manual-completion-with-confirmer
+type: decision
+title: Manual Completion With Selectable Confirmer
+summary: Story and PBI completion is confirmed manually; the confirmer is selectable per ticket, default
+  PO, can be a team member or none (rule:completion-confirmation).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved

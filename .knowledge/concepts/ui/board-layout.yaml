@@ -1,0 +1,6 @@
+id: ui:board-layout
+type: ui
+title: Board Layout
+summary: 'Kanban cards; columns by status, sprint, assignee, etc.; dragging transitions status. Main use:
+  daily, progress check.'
+relations: []

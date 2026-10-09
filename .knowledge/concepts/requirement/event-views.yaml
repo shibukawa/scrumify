@@ -1,0 +1,44 @@
+id: requirement:event-views
+type: requirement
+title: Event-Based Views
+summary: Team mode switches the view per Scrum event; display layout is an independent axis.
+facts:
+  event_views:
+  - ui:refinement-view
+  - ui:planning-view
+  - ui:daily-view
+  - ui:review-view
+  - ui:retro-view
+  layouts:
+  - ui:board-layout
+  - ui:table-layout
+  - ui:area-layout
+  persist: ui:saved-view
+relations:
+- relation: mentions
+  to: ui:area-layout
+  resolution: resolved
+- relation: mentions
+  to: ui:board-layout
+  resolution: resolved
+- relation: mentions
+  to: ui:daily-view
+  resolution: resolved
+- relation: mentions
+  to: ui:planning-view
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-view
+  resolution: resolved
+- relation: mentions
+  to: ui:retro-view
+  resolution: resolved
+- relation: mentions
+  to: ui:review-view
+  resolution: resolved
+- relation: mentions
+  to: ui:saved-view
+  resolution: resolved
+- relation: mentions
+  to: ui:table-layout
+  resolution: resolved

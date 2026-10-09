@@ -1,0 +1,12 @@
+id: actor:developer
+type: actor
+title: Developer
+summary: ''
+facts:
+  level: team
+  duties:
+  - estimate
+  - task breakdown
+  - select into sprint
+  - DoD judgment
+relations: []

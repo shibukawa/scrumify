@@ -1,0 +1,9 @@
+id: decision:keep-feature
+type: decision
+title: Keep Feature (superseded)
+summary: Feature stays as the level between story and PBI. Completion is derived from children with a
+  final PO judgment (rule:completion-confirmation); it is ready when all children are ready (rule:ready-judgment).
+lifecycle: superseded
+relations:
+- relation: superseded_by
+  to: decision:drop-feature

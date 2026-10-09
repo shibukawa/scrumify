@@ -1,0 +1,25 @@
+id: api:agent-interface
+type: api
+title: Agent Interface (API / MCP)
+summary: API and MCP are just another UI next to the GUI; the human using it is the actor and is responsible.
+  AI suggests and assists through it.
+facts:
+  read: tickets, backlog, history, DoD, ready conditions, similar past stories
+  attribution: every operation is recorded with the human user as actor in data:ticket-event, same as
+    GUI
+  human_driven:
+  - create or change tickets (PBI creation etc.); the human judges, AI suggests and assists
+  ai_free_write:
+  - data:ticket-note on a ticket (design, question, etc.)
+  ai_suggest:
+  - data:ai-proposal with rationale
+relations:
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved

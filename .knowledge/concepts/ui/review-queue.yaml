@@ -1,0 +1,32 @@
+id: ui:review-queue
+type: ui
+title: Review Queue
+summary: Per-person inbox of items waiting for a human decision; derived from existing state, not a new
+  entity. Team-level agenda items belong to term:event-inbox instead.
+facts:
+  sources:
+  - item: data:ai-proposal in proposed state
+    action: adopt, edit and adopt, or reject
+    who: person who requested the proposal
+  - item: open question in data:ticket-note
+    action: answer
+    who: addressee
+  - item: ticket at completion candidate after AI execution
+    action: approve or send back
+    who: assignee (responsible human)
+  - item: story or PBI at completion candidate
+    action: confirm completion
+    who: confirmer from rule:completion-confirmation
+relations:
+- relation: mentions
+  to: data:ai-proposal
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: term:event-inbox
+  resolution: resolved

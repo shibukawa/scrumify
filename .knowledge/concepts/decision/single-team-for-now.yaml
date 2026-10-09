@@ -1,0 +1,18 @@
+id: decision:single-team-for-now
+type: decision
+title: Single Team For Now
+summary: A project has exactly one team and the screens never ask which; SoS and SoSoS come after they are designed.
+lifecycle: accepted
+facts:
+  project_creation: creates one unit named after the project
+  screens: project list opens the team's refinement view directly; the project page keeps only members; headings show the project name
+  schema: data:unit keeps parent_id and kind (team, sos, sosos) so adding levels later needs no remodeling
+  removed: team creation UI and the POST /api/projects/{id}/units endpoint
+  revisit: when the Scrum@Scale views (ui:mode-switch, ui:sos-po-view, ui:sos-sm-view) are designed
+relations:
+- relation: mentions
+  to: data:unit
+- relation: mentions
+  to: ui:mode-switch
+- relation: mentions
+  to: requirement:phase-1-mvp

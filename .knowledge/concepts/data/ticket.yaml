@@ -1,0 +1,41 @@
+id: data:ticket
+type: data
+title: Ticket
+summary: Single entity for every work item and finding, impediments included; current state for display;
+  relation to data:ticket-event as source of truth is open (rule:change-history).
+facts:
+  fields:
+    type: term:ticket-type
+    origin: source event and sprint
+    parent: ticket
+    unit: data:unit
+    status: see concept:ticket-lifecycle
+    assignee: responsible data:actor
+    executor: executing data:actor
+    rank: backlog members only (rule:backlog-membership)
+    escalation_level: impediment only
+    confirmer: rule:completion-confirmation, story and PBI only
+  notes:
+  - story may span sprints; sprint binds to child items and tasks
+relations:
+- relation: mentions
+  to: concept:ticket-lifecycle
+  resolution: resolved
+- relation: mentions
+  to: data:actor
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: data:unit
+  resolution: resolved
+- relation: mentions
+  to: rule:backlog-membership
+  resolution: resolved
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: term:ticket-type
+  resolution: resolved

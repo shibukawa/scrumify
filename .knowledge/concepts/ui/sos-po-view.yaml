@@ -1,0 +1,8 @@
+id: ui:sos-po-view
+type: ui
+title: SoS/SoSoS PO View
+summary: Cross-team backlog of child teams, distribution (flow:backlog-distribution), release planning.
+relations:
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved

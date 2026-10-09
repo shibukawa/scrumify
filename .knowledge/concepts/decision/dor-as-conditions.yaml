@@ -1,0 +1,10 @@
+id: decision:dor-as-conditions
+type: decision
+title: DoR As Ready Conditions
+summary: DoR is not a free checklist; it is the mix of manual external_task checks and prerequisite PBIs
+  (rule:ready-judgment).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved

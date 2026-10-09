@@ -1,0 +1,40 @@
+id: rule:completion-confirmation
+type: rule
+title: Completion Confirmation
+summary: Completion of a story or PBI is never automatic; it is confirmed by a selectable human confirmer.
+facts:
+  applies_to:
+  - story
+  - pbi
+  flow: work finished or all children done, then completion candidate, then confirmer confirms done
+  confirmer:
+    field: confirmer on data:ticket
+    default: actor:product-owner
+    options:
+    - actor:product-owner
+    - a chosen team member, e.g. another actor:developer for issues raised by development
+    - none, completion candidate goes straight to done
+    must_be: human (policy:ai-constraints)
+  acceptance: confirmation is the acceptance check against acceptance criteria; there is no separate acceptance
+    step in review
+  send_back: confirmer may send back; item leaves completion candidate
+  ai_executed: assignee approval of AI work is still required even when confirmer is none
+  shown_in: ui:review-queue of the confirmer
+  story: derived from children; when all are done it becomes a completion candidate and the confirmer
+    judges last
+relations:
+- relation: mentions
+  to: actor:developer
+  resolution: resolved
+- relation: mentions
+  to: actor:product-owner
+  resolution: resolved
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved
+- relation: mentions
+  to: ui:review-queue
+  resolution: resolved

@@ -1,0 +1,37 @@
+id: rule:change-history
+type: rule
+title: Change History
+summary: Change history in data:ticket-event records who changed what and when; it is not an audit trail, so entries may be merged or rewritten.
+lifecycle: accepted
+aliases:
+- rule:append-only-history
+facts:
+  purpose: tracking changes, analysis, AI learning; not audit evidence
+  rules:
+  - keep who, when, what for changes at the granularity of rule:history-coalescing
+  - existing entries may be updated in place when edits are merged
+  - comments are a kind of event
+  tamper_protection: not needed (decision:open-tamper-proofing)
+open_questions:
+  source-of-truth:
+    text: Whether current ticket state is still derived from events, or data:ticket becomes the source of truth with history recorded alongside, now that entries are merged.
+    state: open
+  status-change-granularity:
+    text: Whether status transitions are also merged per day; merging them loses same-day timing needed by requirement:lead-time-analysis.
+    state: open
+history:
+  append-only-origin:
+    summary: The source document required append-only history with no rewrite, corrections as new events, and any past state reproducible by folding events. Replaced because the history is not an audit trail (decision:history-not-audit-trail).
+relations:
+- relation: mentions
+  to: data:ticket-event
+- relation: mentions
+  to: rule:history-coalescing
+- relation: mentions
+  to: decision:open-tamper-proofing
+- relation: mentions
+  to: decision:history-not-audit-trail
+- relation: mentions
+  to: requirement:lead-time-analysis
+- relation: mentions
+  to: data:ticket

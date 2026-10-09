@@ -1,0 +1,16 @@
+id: requirement:demo-data
+type: requirement
+title: Demo Data On Local Runs
+summary: A local development run always has a sample project to look at; an empty development database is filled on the first request.
+lifecycle: accepted
+facts:
+  when: pw.Development() and no project exists for the demo admin account
+  how: handlers.RegisterDemoData installs a middleware that calls tracker.EnsureDemo once per process
+  content: project デモプロジェクト with both dev identity provider users as members, 4 stories, 6 PBIs, 3 tasks, Sprint 1 active with items in every column, history written through the normal domain functions
+  reset: truncate the ticket tables (or recreate the database); the next request seeds again
+  not_in: any environment other than development
+relations:
+- relation: mentions
+  to: requirement:phase-1-mvp
+- relation: mentions
+  to: decision:single-team-for-now

@@ -1,0 +1,26 @@
+id: decision:implementation-architecture
+type: decision
+title: Milestone 1 Implementation Architecture
+summary: Pages are server-rendered GET views in a page tree; every change goes through a JSON API called by one shared browser script; domain rules live in one Go package.
+lifecycle: accepted
+facts:
+  layers:
+    domain: internal/tracker (access, tickets, sprints, change history)
+    api: handlers/api.go, registered routes under /api, listed in the generated OpenAPI document
+    pages: pages/ (project list, project, unit views, ticket detail)
+    script: public/scrumify.js, driven by data attributes; implements rule:autosave and drag and drop
+    sql: queries/*.pw.sql, migrations/00001_init.sql
+  refresh: after a structural change the script asks the runtime to re-navigate the current URL and swap what differs
+  reasons:
+    - one implementation of each change serves every page and is the base for api:agent-interface later
+  framework_version: popcornweb v0.5.11, pw v0.5.11
+  framework_workarounds: none since v0.5.11; sign-out is an ordinary POST form again; docs/popcornweb-upstream-feedback.md keeps the record
+relations:
+- relation: implements
+  to: requirement:phase-1-mvp
+- relation: mentions
+  to: rule:autosave
+- relation: mentions
+  to: api:agent-interface
+- relation: mentions
+  to: system:popcorn-web

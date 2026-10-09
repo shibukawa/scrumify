@@ -1,0 +1,16 @@
+id: actor:chief-product-owner
+type: actor
+title: Chief Product Owner
+summary: ''
+facts:
+  level:
+  - sos
+  - sosos
+  cycle: po
+  duties:
+  - rank upper backlog
+  - distribute to teams via flow:backlog-distribution
+relations:
+- relation: mentions
+  to: flow:backlog-distribution
+  resolution: resolved

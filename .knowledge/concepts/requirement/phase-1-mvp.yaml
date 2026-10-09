@@ -1,0 +1,154 @@
+id: requirement:phase-1-mvp
+type: requirement
+title: Phase 1 MVP
+summary: Story-to-PBI breakdown and the basic Scrum views, on a data skeleton designed so Scrum@Scale
+  levels can be added later without remodeling.
+lifecycle: accepted
+facts:
+  data:
+  - data:ticket limited to story, pbi, task
+  - parent-child via data:ticket-link
+  - data:ticket-event as source of history
+  - data:unit tree, so tickets already belong to a unit for later SoS/SoSoS
+  - data:project as container
+  - data:sprint
+  - rank on backlog items
+  views:
+  - ui:stories-view, ui:planning-view (product backlog), ui:sprint-board, ui:refinement-view in that tab
+    order (decision:team-view-tabs)
+  - ui:sprint-board (kanban with tasks nested in PBI groups) and sprint-scoped ui:table-layout (list)
+    as sprint backlog, used in daily scrum and sprint review
+  status: transitions are manual until rule:ready-judgment and rule:completion-confirmation land
+  editing: rule:autosave on every edit, shown in history per rule:history-coalescing
+  excluded:
+  - AI features (flow:ai-refinement-proposal, api:agent-interface, data:ticket-note)
+  - rule:ready-judgment and rule:completion-confirmation
+  - rule:auto-subscription
+  - inboxes and ui:review-queue
+  - estimation and ui:area-layout
+  deferred_items: not yet assigned to a phase; replan later
+  unit_tree_note: one team per project, chosen automatically (decision:single-team-for-now); sos and sosos
+    are schema-level only
+  hierarchy: story > pbi > task (decision:drop-feature)
+  breakdown_note: story > pbi > task since decision:drop-feature; reworked and re-verified 2026-10-06
+  demo: requirement:demo-data seeds a sample project on local runs
+capabilities:
+  breakdown:
+    state: implemented
+    verified_by:
+    - domain-tests
+    - browser-walkthrough
+  refinement-view:
+    state: implemented
+    verified_by:
+    - browser-walkthrough
+  ranked-backlog:
+    state: implemented
+    verified_by:
+    - domain-tests
+    - browser-walkthrough
+  sprint-board-and-list:
+    state: implemented
+    verified_by:
+    - browser-walkthrough
+  change-history:
+    state: implemented
+    verified_by:
+    - domain-tests
+    - browser-walkthrough
+  autosave:
+    state: implemented
+    verified_by:
+    - browser-walkthrough
+  unit-tree:
+    state: partial
+  project-access:
+    state: implemented
+    verified_by:
+    - domain-tests
+    - browser-walkthrough
+verification:
+  domain-tests:
+    state: passed
+    method: integration
+    test: go test ./internal/tracker (13 tests, PostgreSQL scrumify_test, rolled back per test; hierarchy
+      cases updated for story > pbi > task)
+    authority: observed
+    evidence:
+      path: internal/tracker/tracker_db_test.go
+  browser-walkthrough:
+    state: passed
+    method: manual
+    test: 'pw dev on 2026-10-05: login, project, team, member, story/feature/PBI breakdown, autosave with
+      merged history, drag reorder, drag into sprint, board drag, tasks, list layout, non-member 404,
+      sign out; 2026-10-06 after dropping the feature level: story and PBI breakdown on a recreated database'
+    authority: observed
+relations:
+- relation: includes
+  to: rule:autosave
+- relation: includes
+  to: rule:history-coalescing
+- relation: mentions
+  to: api:agent-interface
+  resolution: resolved
+- relation: mentions
+  to: data:project
+  resolution: resolved
+- relation: mentions
+  to: data:sprint
+  resolution: resolved
+- relation: mentions
+  to: data:ticket
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-event
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-link
+  resolution: resolved
+- relation: mentions
+  to: data:ticket-note
+  resolution: resolved
+- relation: mentions
+  to: data:unit
+  resolution: resolved
+- relation: mentions
+  to: flow:ai-refinement-proposal
+  resolution: resolved
+- relation: mentions
+  to: rule:auto-subscription
+  resolution: resolved
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: rule:ready-judgment
+  resolution: resolved
+- relation: mentions
+  to: ui:area-layout
+  resolution: resolved
+- relation: mentions
+  to: ui:planning-view
+  resolution: resolved
+- relation: mentions
+  to: ui:refinement-view
+  resolution: resolved
+- relation: mentions
+  to: ui:review-queue
+  resolution: resolved
+- relation: mentions
+  to: ui:sprint-board
+  resolution: resolved
+- relation: mentions
+  to: ui:table-layout
+  resolution: resolved
+- relation: mentions
+  to: decision:milestone-1-provisional-choices
+- relation: mentions
+  to: decision:drop-feature
+- relation: mentions
+  to: decision:single-team-for-now
+- relation: includes
+  to: requirement:demo-data
+- relation: mentions
+  to: decision:team-view-tabs

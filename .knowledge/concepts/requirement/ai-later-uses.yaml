@@ -1,0 +1,19 @@
+id: requirement:ai-later-uses
+type: requirement
+title: Later AI Uses
+summary: AI uses deferred until track-record data accumulates (after flow:ai-refinement-proposal).
+facts:
+  uses:
+  - estimation support from similar past cases
+  - assigning tasks and items to actor:ai-agent (assignee human, executor AI)
+  - planning composition proposal
+  - stagnation detection
+  - review summary
+  - retro issue consolidation
+relations:
+- relation: mentions
+  to: actor:ai-agent
+  resolution: resolved
+- relation: mentions
+  to: flow:ai-refinement-proposal
+  resolution: resolved

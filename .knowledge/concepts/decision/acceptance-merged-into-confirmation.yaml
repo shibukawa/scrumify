@@ -1,0 +1,13 @@
+id: decision:acceptance-merged-into-confirmation
+type: decision
+title: Acceptance Merged Into Confirmation
+summary: Acceptance judgment is merged into rule:completion-confirmation; ui:review-view only shows done
+  items and collects remarks.
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:completion-confirmation
+  resolution: resolved
+- relation: mentions
+  to: ui:review-view
+  resolution: resolved

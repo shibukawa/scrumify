@@ -1,0 +1,13 @@
+id: actor:ai-agent
+type: actor
+title: AI Agent
+summary: AI participant that always has a responsible human; limited by policy:ai-constraints.
+facts:
+  level: all
+  duties:
+  - draft proposals
+  - execute assigned tasks
+relations:
+- relation: mentions
+  to: policy:ai-constraints
+  resolution: resolved

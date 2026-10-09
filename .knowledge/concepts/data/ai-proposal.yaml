@@ -1,0 +1,21 @@
+id: data:ai-proposal
+type: data
+title: AI Proposal
+summary: ''
+facts:
+  fields:
+  - content
+  - rationale
+  - decider
+  - outcome
+  - reject_reason
+  rationale: past stories and splits the proposal was based on
+  outcome:
+  - adopted
+  - edited
+  - rejected
+  pending: shown in ui:review-queue
+relations:
+- relation: mentions
+  to: ui:review-queue
+  resolution: resolved

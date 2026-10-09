@@ -1,0 +1,9 @@
+id: decision:auto-subscribe-on-activity
+type: decision
+title: Auto Subscribe On Activity
+summary: Notification lists grow from ticket history and allow opt-out (rule:auto-subscription).
+lifecycle: accepted
+relations:
+- relation: mentions
+  to: rule:auto-subscription
+  resolution: resolved

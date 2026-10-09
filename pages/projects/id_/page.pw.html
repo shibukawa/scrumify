@@ -1,0 +1,57 @@
+package id_
+
+type Person { id: string, name: string, email: string }
+
+type View {
+  id: int
+  name: string
+  boardPath: url
+  members: Person[]
+  candidates: Person[]
+  hasCandidates: bool
+}
+
+external LoadProject(id: int): View
+
+export component Page(id: int): html {
+  {val view = LoadProject(id)}
+  <div class="mx-auto max-w-3xl space-y-10">
+    <div>
+      <a class="text-sm text-indigo-600 hover:underline" href="/">← プロジェクト一覧</a>
+      <div class="mt-1 flex flex-wrap items-center justify-between gap-3">
+        <h1 class="text-2xl font-bold">{view.name}</h1>
+        <a
+          class="rounded bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
+          href="{view.boardPath}">ストーリーを開く</a>
+      </div>
+    </div>
+    <section class="space-y-3">
+      <h2 class="text-lg font-semibold">メンバー</h2>
+      <ul class="divide-y divide-slate-200 rounded-lg border border-slate-200 bg-white">
+        {for member in view.members}
+          <li class="flex items-baseline justify-between px-4 py-3">
+            <span class="font-medium">{member.name}</span>
+            <span class="text-sm text-slate-500">{member.email}</span>
+          </li>
+        {/for}
+      </ul>
+      {if view.hasCandidates}
+        <form data-api="/api/projects/{view.id}/members" data-tb-ignore class="flex gap-2">
+          <select
+            class="flex-1 rounded border border-slate-300 bg-white px-3 py-2"
+            name="accountId"
+            required>
+            {for candidate in view.candidates}
+              <option value="{candidate.id}">{candidate.name}</option>
+            {/for}
+          </select>
+          <button
+            class="rounded bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700"
+            type="submit">メンバーに追加</button>
+        </form>
+      {else}
+        <p class="text-sm text-slate-500">追加できるアカウントはありません。メンバーにしたい人に一度ログインしてもらってください。</p>
+      {/if}
+    </section>
+  </div>
+}

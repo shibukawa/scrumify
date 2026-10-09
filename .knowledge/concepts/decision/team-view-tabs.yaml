@@ -1,0 +1,22 @@
+id: decision:team-view-tabs
+type: decision
+title: Team View Tabs
+summary: The team views are ordered ストーリー, プロダクトバックログ, スプリントバックログ, リファインメント; stories and the product backlog offer list and card layouts.
+lifecycle: accepted
+facts:
+  tabs:
+    - ui:stories-view
+    - ui:planning-view as プロダクトバックログ, PBIs in rank order; each row names its story (link) or says it has none
+    - ui:sprint-board as スプリントバックログ, board or list
+    - ui:refinement-view
+  refinement_scope: splitting stories, and later entering estimates and refining items that lack DoR or DoD text; the same edits may also be made from the stories and backlog views
+  layouts: list and card for stories and product backlog, kept in the URL query
+relations:
+- relation: mentions
+  to: ui:stories-view
+- relation: mentions
+  to: ui:planning-view
+- relation: mentions
+  to: ui:sprint-board
+- relation: mentions
+  to: ui:refinement-view

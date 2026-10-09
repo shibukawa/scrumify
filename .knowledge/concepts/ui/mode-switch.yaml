@@ -1,0 +1,24 @@
+id: ui:mode-switch
+type: ui
+title: Mode Switch
+summary: Header selector of unit and cycle; the view is decided by cycle x level (concept:two-cycles).
+facts:
+  modes:
+    team: five event views (requirement:event-views)
+    sos_or_sosos_po: ui:sos-po-view
+    sos_or_sosos_sm: ui:sos-sm-view
+    top_po: MetaScrum
+    top_sm: EAT
+relations:
+- relation: mentions
+  to: concept:two-cycles
+  resolution: resolved
+- relation: mentions
+  to: requirement:event-views
+  resolution: resolved
+- relation: mentions
+  to: ui:sos-po-view
+  resolution: resolved
+- relation: mentions
+  to: ui:sos-sm-view
+  resolution: resolved
